@@ -1,0 +1,43 @@
+sprite_pattern():end
+func sprite_pattern()
+  dim char c(255)
+  c={
+    &HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+    &HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,
+    &HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,
+    &HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,
+    &HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,
+    &HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,
+    &HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+    &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+    &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+    &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+    &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+    &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(0,c)
+  c={
+    &H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,
+    &H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,
+    &H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,
+    &H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,
+    &H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+    &HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+    &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+    &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+    &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+    &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+    &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+    &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(1,c)
+endfunc
+

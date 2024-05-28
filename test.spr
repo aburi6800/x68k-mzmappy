@@ -1,0 +1,43 @@
+   10 sprite_pattern():end
+60000 func sprite_pattern()
+60010   dim char c(255)
+60020   c={
+60021     &HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+60022     &HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,
+60023     &HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,
+60024     &HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,
+60025     &HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,
+60026     &HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,
+60027     &HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+60028     &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+60029     &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+60030     &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+60031     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60032     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60033     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60034     &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+60035     &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+60036     &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+60037   }
+60038   sp_def(0,c)
+60040   c={
+60041     &H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60042     &H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,
+60043     &H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,
+60044     &H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,
+60045     &H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,
+60046     &H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+60047     &HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0,
+60048     &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,
+60049     &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+60050     &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+60051     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60052     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60053     &HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,
+60054     &H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0,
+60055     &H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,
+60056     &H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+60057   }
+60058   sp_def(1,c)
+60060 endfunc
+
