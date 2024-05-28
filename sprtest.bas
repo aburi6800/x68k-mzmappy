@@ -14,6 +14,7 @@ int C_BG_WIDTH = 54
 int C_DISP_WIDTH = 32
 /* 変数
 int i, j
+/* マッピー
 int mp_x = 48 /* マッピーX座標
 int mp_y = 28 /* マッピーY座標
 int mp_vx = 0 /* マッピーX移動量
@@ -22,15 +23,22 @@ int mp_cd = 64 /* マッピーキャラクターパターン番号
 int mp_cond = 0 /* マッピーの状態
 int vx = 0 /* 仮
 int vy = 0 /* 仮
-int en_type(8) /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様
+/* 敵
+int en_type(8) /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
 int en_x(8) /* 敵X座標
 int en_y(8) /* 敵Y座標
 int en_cp(8) /* 敵キャラクターパターン番号
 int en_cond(8) /* 敵の状態
+/* トランポリン
 int tp_x(8) /* トランポリンX座標
 int tp_y(8) /* トランポリンY座標
 int tp_h(8) /* トランポリン耐久度
 int tp_cond(8) /* トランポリンの状態
+/* ドア
+int dr_x(6, 3)
+int dr_type(6, 3) /* ドアの種類(0=右ノブ、1=左ノブ)
+int dr_cond(6, 3) /* ドアの状態(0=オープン、1=通常ドアクローズ、2=パワードアクローズ)
+/* その他
 int st = 0 /* スティック入力値
 int bg_x = 0 /* BG面の表示位置
 /*
@@ -365,7 +373,7 @@ func bg_print(x;char, y;char, value;str)
   while value[p] <> 0
     data = 0
     /* 数値
-    if value[p] >= '0' and value[p] <='9' then {
+    if (value[p] >= '0' and value[p] <= '9') then {
       data = value[p] - 16
     }
     /* 英字
