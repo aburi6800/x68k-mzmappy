@@ -1,6 +1,6 @@
 # X68K-MZMAPPY
 
-<img src="Images\>screen_1.png">
+<img src="Images/screen_1.png">
 
 MAPPY for MZ-80K version on SHARP X68000.
 (under construction)
