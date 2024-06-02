@@ -26,6 +26,16 @@ int C_GAME_STATUS_CLEAR = 6
 int C_GAME_STATUS_MISS = 7
 int C_GAME_STATUS_OVER = 8
 int C_GAME_STATUS_QUIT = -1
+dim char title_chr(32 * 6)
+/*             0                                       1                                       2                                       3
+/*             0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5   6   7   8   9   0   1
+title_chr = {  0, 67, 67, 77, 78, 67, 67,   0,  0, 78, 67, 67, 77,  0,   0, 67, 67, 67, 67, 77,   0, 67, 67, 67, 67, 77,   0, 67, 67,  0, 67, 67
+            ,114,112, 66, 86,112,115, 67,   0,118,112,112, 66, 67, 77, 114,112,112,112, 66, 67, 114,112,112,112, 66, 67, 114,115, 67,114,115, 67
+            ,113,  0,  0,  0,  0, 61, 67, 118,  0, 59,123,  0, 66, 67, 113,  0, 67,  0, 61, 67, 113,  0, 67,  0, 61, 67, 113, 61, 67,113, 61, 67
+            ,113,  0,  0,  0,  0, 61, 67, 113,  0, 59,123,  0, 61, 67, 113,  0, 67,  0, 61, 86, 113,  0, 67,  0, 61, 86, 113,  0,  0,  0, 61, 67
+            ,113, 61, 77,118,113, 61, 67, 113,  0,  0,  0,  0, 61, 67, 113,  0,  0,  0,118,  0, 113,  0,  0,  0,118,  0, 113,  0,  0,  0, 61, 67
+            , 50, 51,  0,  0, 50, 51,  0,  50, 51,112,112, 50, 51,  0,  50, 51,112,112,  0,  0,  50, 51,112,112,  0,  0, 112,112,112, 50, 51,  0
+          }
 dim char dr_chr(5, 11)  /* ÉhÉAÇÃÉLÉÉÉâÉNÉ^Å[ÉpÉ^Å[Éì
 dr_chr = {114,115,  0,  0  /* (0, 0Å`11) ÉIÅ[ÉvÉìÅEç∂
          , 55, 61,  0,  0
@@ -93,7 +103,7 @@ int it_type(9)          /* ìêïiÇÃéÌóﬁ(1=ÉJÉZÉbÉgÅA2=ÉeÉåÉrÅA3ÅÅÉ}ÉCÉRÉìÅA4=ÉÇÉiÉ
 while game_status <> C_GAME_STATUS_QUIT
   switch game_status
     case 0 : game_init()      : break
-/*    case 1 : game_title()     : break
+    case 1 : game_title()     : break
     case 2 : game_opening()   : break
     case 3 : game_roundinit() : break
     case 4 : game_start()     : break
@@ -140,7 +150,33 @@ func game_init()
   /* trk6 : É~ÉX
   m_trk(6, "@31t180l8o4v13e<c16>a#g16<c#c16>a#g16d#4&d#16dr2")
   /* ÉQÅ[ÉÄèÛë‘ÇïœçX
-  game_status = C_GAME_STATUS_OPENING /* âºÇ≈ÉIÅ[ÉvÉjÉìÉOÅAê≥éÆÇ…ÇÕÉ^ÉCÉgÉãÇ…Ç∑ÇÈ
+  game_status = C_GAME_STATUS_TITLE /* É^ÉCÉgÉã
+endfunc
+/*
+/* É^ÉCÉgÉã
+/*
+func game_title()
+  int i, j
+  /* âÊñ è¡Ç∑
+  erase_all()
+  for i = 0 to 5
+    for j = 0 to 31
+      bg_put(1, j, 2 + i, pat_dat(0, 0, 1, title_chr(i * 32 + j)))
+    next
+  next                   
+  bg_print( 4, 12, "PUSH TRIGGER TO START !!")
+  bg_print( 7, 15, "1ST EXTEND 20000PT")
+  bg_print( 7, 18, "2ND EXTEND 70000PT")
+  bg_print(12, 22, "(C)NAMCO")
+  bg_print( 0, 26, "PROGRAM ARRANGED BY DEMPA")
+  bg_print(18, 27, "AND GAME ROMAN")
+  bg_print( 0, 29, "REPROGRAMMED BY ABURI GAMES 2024")
+  bg_set(0, 0, 1)
+  bg_set(1, 1, 1)
+  while strig(1) = 0
+  endwhile
+  /* ÉQÅ[ÉÄèÛë‘ÇïœçX
+  game_status = C_GAME_STATUS_OPENING /* ÉQÅ[ÉÄÉIÅ[ÉvÉjÉìÉO
 endfunc
 /*
 /* ÉQÅ[ÉÄÉIÅ[ÉvÉjÉìÉO
@@ -164,8 +200,6 @@ func game_opening()
   m_play(1)
   while m_stat(1) = 1
   endwhile
-  /* âÊñ è¡Ç∑
-  erase_all()
   /* ÉQÅ[ÉÄèÛë‘ÇïœçX
   game_status = C_GAME_STATUS_ROUNDINIT /* ÉâÉEÉìÉhèâä˙âª
 endfunc
@@ -339,11 +373,12 @@ func game_start()
   en_y(1) = 16
   en_cp(1) = 1    /* âE
   en_cond(1) = 0
+  /* âÊñ è¡Ç∑
+  erase_all()
   /* âÊñ ï`âÊ
   /*   BG#1Ç…âÆï~ï`âÊ
   bg_set(0, 0, 0)
   bg_set(1, 1, 0)
-  erase_all()
   for i = 0 to 28
     for j = 0 to 53
       bg_put(1, j, i+3, pat_dat(0, 0, 1, offscr(i*54 + j)))
@@ -751,6 +786,12 @@ func bg_print(x;char, y;char, value;str)
     }
     if v = '!' then {
       data = 97
+    }
+    if v = '(' then {
+      data = 104
+    }
+    if v = ')' then {
+      data = 105
     }
     bg_put(0, x + p, y, pat_dat(0, 0, 1, data))
     p = p + 1
@@ -1547,6 +1588,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF
   }
   sp_def(59, c, 0)
+  /* (â∫ÇÃê¸)
+  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+  }
+  sp_def(60, c, 0)
   /* (âEÇÃê¸)
   c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF
@@ -1580,6 +1632,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_def(64, c, 0)
+  /* ?
+  c={&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF
+  }
+  sp_def(66, c, 0)
   /* Å°
   c={&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
@@ -1602,7 +1665,7 @@ func bg_pattern()
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
   }
   sp_def(74, c, 0)
-  /* Å£
+  /* ?
   c={&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
     ,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0
     ,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0
@@ -1613,7 +1676,7 @@ func bg_pattern()
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
   }
   sp_def(77, c, 0)
-  /* Å£
+  /* ?
   c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF
     ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF
     ,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF
@@ -1646,6 +1709,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_def(84, c, 0)
+  /* ?
+  c={&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H0
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&H0,&H0
+    ,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0
+    ,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0
+    ,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(86, c, 0)
   /* (ÉpÉèÅ[ÉhÉAâEÉpÅ[Éc)
   c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
@@ -1668,6 +1742,39 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_def(97, c, 0)
+  /* (
+  c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(104, c, 0)
+  /* )
+  c={&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(105, c, 0)
+  /* (è„ÇÃê¸)
+  c={&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_def(112, c, 0)
   /* (ç∂ÇÃê¸)
   c={&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
     ,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
@@ -1728,7 +1835,7 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H086,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
