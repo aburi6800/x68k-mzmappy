@@ -59,6 +59,8 @@ dr_chr = {114,115,  0,  0  /* (0, 0～11) オープン・左
 /* 変数
 int i, j
 int tick
+int trg
+int stk
 dim char offscr(54*29)  /* オフスクリーン
 int game_status = 0     /* ゲーム状態
 int round = 0           /* ラウンド数
@@ -120,6 +122,27 @@ erase_all()
 screen 2,0,1,0
 end
 /*
+/* 操作入力
+/*
+func get_control()
+  str ky
+  ky = inkey$(0)
+/*  if (ky >= "0" and ky <= "9") then {
+/*    stk = val(ky)
+/*  } else {
+    stk = stick(1)
+/*  }
+  trg = strig(1)
+/*  if (ky = " ") then {
+/*    trg = 1
+/*  }
+  /* 終了チェック
+/*  if (ky = chr$(27) and game_status = C_GAME_STATUS_TITLE) then {
+  if (ky = chr$(27)) then {
+      game_status = C_GAME_STATUS_QUIT
+  }
+endfunc
+/*
 /* ゲーム初期化
 /*
 func game_init()
@@ -159,6 +182,8 @@ func game_title()
   int i, j
   /* 画面消す
   erase_all()
+  bg_set(0, 0, 0)
+  bg_set(1, 1, 0)
   for i = 0 to 5
     for j = 0 to 31
       bg_put(1, j, 2 + i, pat_dat(0, 0, 1, title_chr(i * 32 + j)))
@@ -173,7 +198,11 @@ func game_title()
   bg_print( 0, 29, "REPROGRAMMED BY ABURI GAMES 2024")
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
-  while strig(1) = 0
+  while trg = 0
+    get_control()
+    if (game_status = C_GAME_STATUS_QUIT) then {
+      return()
+    }
   endwhile
   /* ゲーム状態を変更
   game_status = C_GAME_STATUS_OPENING /* ゲームオープニング
@@ -183,6 +212,8 @@ endfunc
 /*
 func game_opening()
   erase_all()
+  bg_set(0, 0, 0)
+  bg_set(1, 1, 0)
   for i =0 to 31
     bg_put(1, i, 30, pat_dat(0, 0, 1, &H4A))
     bg_put(1, i, 31, pat_dat(0, 0, 1, &H4A))
@@ -376,9 +407,9 @@ func game_start()
   /* 画面消す
   erase_all()
   /* 画面描画
-  /*   BG#1に屋敷描画
   bg_set(0, 0, 0)
   bg_set(1, 1, 0)
+  /*   BG#1に屋敷描画
   for i = 0 to 28
     for j = 0 to 53
       bg_put(1, j, i+3, pat_dat(0, 0, 1, offscr(i*54 + j)))
@@ -428,6 +459,7 @@ endfunc
 /*
 func game_main()
   m_play(8)  /* ウェイト用の音符を鳴らす
+  get_control()
   move_mappy()
   move_enemy()
   draw_item()
@@ -442,10 +474,6 @@ func game_main()
   /* ウェイト
   while m_stat(8) = 1
   endwhile
-  /* 終了チェック
-  if inkey$(0) = chr$(27) then {
-    game_status = C_GAME_STATUS_QUIT
-  }
   /* 経過時間加算
   tick = tick + 1
 endfunc
@@ -476,8 +504,7 @@ func move_mappy_floor()
 /*
   mp_vy = 0
   mp_vx = 0
-  st = stick(1)
-  if st = 4 then {
+  if (stk = 4) then {
     /* 左入力
     mp_cd = 0
     mp_vx = - 1
@@ -487,7 +514,7 @@ func move_mappy_floor()
       mp_vy = - 1
       mp_cond = 1 /* トランポリンに乗る
     }
-  } else if st = 6 then {
+  } else if (stk = 6) then {
     /* 右入力
     mp_cd = 1
     mp_vx = 1
@@ -498,7 +525,7 @@ func move_mappy_floor()
       mp_cond = 1 /* トランポリンに乗る
     }
   }
-  if (strig(1) > 0) then {
+  if (trg > 0) then {
     if (tr_f = 0) then {
       tr_f = 1
       /* 操作対象ドア検索
@@ -544,8 +571,7 @@ func move_mappy_updown()
   }
   /* 入力チェック
   if (mp_vy = -1) and ((mp_y - 8) mod 4 = 0) then {
-    st = stick(1)
-    if st = 4 then {
+    if (stk = 4) then {
       /* 左入力
       if vpeek(mp_x - 1, mp_y + 1) = 0 then {
         mp_cond = 3
@@ -554,7 +580,7 @@ func move_mappy_updown()
       } else {
         mp_vy = 1
       }
-    } else if st = 6 then {
+    } else if (stk = 6) then {
       /* 右入力
       if vpeek(mp_x + 2, mp_y + 1) = 0 then {
         mp_cond = 3
