@@ -575,6 +575,7 @@ func move_mappy_updown()
       /* ¶“ü—Í
       if vpeek(mp_x - 1, mp_y + 1) = 0 then {
         mp_cond = 3
+        mp_cd = 0
         mp_vx = -1
         mp_vy = - 1
       } else {
@@ -584,6 +585,7 @@ func move_mappy_updown()
       /* ‰E“ü—Í
       if vpeek(mp_x + 2, mp_y + 1) = 0 then {
         mp_cond = 3
+        mp_cd = 1
         mp_vx = 1
         mp_vy = - 1
       } else {
@@ -597,11 +599,11 @@ endfunc
 /*
 func move_mappy_tofloor()
   mp_vy = 1
-  if mp_vx = -1 then {
-    mp_cd = 0
-  } else {
-    mp_cd = 1
-  }
+/*  if mp_vx = -1 then {
+/*    mp_cd = 0
+/*  } else {
+/*    mp_cd = 1
+/*  }
   mp_cond = 0
 endfunc
 /*
@@ -694,9 +696,11 @@ func int search_door(x;int, y;int, d;int)
   for i = 0 to 10 /* ‚·‚×‚Ä‚ÌƒhƒA‚É‚Â‚¢‚Ä”äŠr‚·‚é
     if dr_y(i) = y - 1 then {
       w_dist = 255
-      if d=0 and dr_x(i) < x + 1 then w_dist = x - dr_x(i)
-      if d=1 and dr_x(i) > x - 2 then w_dist = dr_x(i) - x
-      if dist > w_dist then {
+      if (d = 0 and dr_dir(i) = 0 and dr_x(i) < x + 1) then w_dist = x + 1 - dr_x(i)
+      if (d = 1 and dr_dir(i) = 0 and dr_x(i) > x - 1) then w_dist = dr_x(i) - x - 1
+      if (d = 0 and dr_dir(i) = 1 and dr_x(i) < x - 1) then w_dist = x - 1 - dr_x(i)
+      if (d = 1 and dr_dir(i) = 1 and dr_x(i) > x - 3) then w_dist = dr_x(i) - x - 3
+      if (dist > w_dist) then {
         dist = abs(dr_x(i) - x)
         door_n = i
       }
