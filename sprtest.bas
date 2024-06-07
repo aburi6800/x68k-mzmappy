@@ -164,8 +164,21 @@ func game_init()
   /* trk2 : オープニング
   m_trk(2, "@31t160l16o3v13f#8ga8f# g8ab8g a8b<c8>a b8<cd8>b <c8de8c d8ef#8a b8.a8ba8ba8br2")
   /* trk3 : メインBGM
-  m_trk(3, "@31t180l8o4v13|:c#ag#aa#4a4gagdg4.r")
-  m_trk(3, "gf#ga4g4fgfdc4.r:|")
+  m_trk(3, "@31t180l8o4v13")
+  m_trk(3, "|:c#ag#aa#4a4gagdg4.r")
+  m_trk(3, "gf#ga4g4fgfdc4.r")
+  m_trk(3, ">a<edc>a<edcr")
+  m_trk(3, "agcfe16r16d16r16c16r16:|")
+  m_trk(3, "|:5>a<ce:||:5>gb<d:|")
+  m_trk(3, "l16>a.<cd8>b.<de8c.ef#8d.f#g8e.ga8f#.ab8")
+  m_trk(3, "<c.>b<c>b<c>b<c>l8")
+  m_trk(3, "|:c#ag#aa#4a4gagdg4.r")
+  m_trk(3, "gf#ga4g4fgfdc4.r")
+  m_trk(3, ">a<edc>a<edcr")
+  m_trk(3, "agcfe16r16d16r16c16r16:|")
+  m_trk(3, "agaa#agac<edc>g4.r gf#gagabr<c>bgara#r")
+  m_trk(3, "agaa#agarf#g<ce16.d16e16.dd16c16d16r16")
+  m_trk(3, "f#.d16.c16.d16.>b16.f#16.g16.a16.g16.agf#edg16.rg16.r")
   /* trk4 : エクステンド
   m_trk(4, "@31t180l8o5v13dc16>af#16<c#.d#.f2.")
   /* trk5 : ラウンドクリア
@@ -448,7 +461,6 @@ func game_start()
   m_stop()
   m_assign(8, 1) /* ch8 : trk1(メインループウェイト用)
   m_assign(1, 3) /* ch1 : trk3(メインBGM)
-  m_play(1) /* BGM演奏開始
   /* 経過時間リセット
   tick = 0
   /* ゲーム状態を変更
@@ -458,6 +470,9 @@ endfunc
 /* メインルーチン
 /*
 func game_main()
+  if (m_stat(1) = 0) then {
+    m_play(1) /* メインBGM演奏
+  }
   m_play(8)  /* ウェイト用の音符を鳴らす
   get_control()
   move_mappy()
@@ -509,20 +524,24 @@ func move_mappy_floor()
     mp_cd = 0
     mp_vx = - 1
     /* BG判定
-    vdata = vpeek(mp_x + mp_vx, mp_y + 1)
-    if vdata = 64 then {
+    vdata = vpeek(mp_x - 1, mp_y + 1)
+    if (vdata = 64) then {
       mp_vy = - 1
       mp_cond = 1 /* トランポリンに乗る
+    } else if (vdata <> 0) then {
+      mp_vx = 0
     }
   } else if (stk = 6) then {
     /* 右入力
     mp_cd = 1
     mp_vx = 1
     /* BG判定
-    vdata = vpeek(mp_x + mp_vx + 1, mp_y + 1)
-    if vdata = 64 then {
+    vdata = vpeek(mp_x + 2, mp_y + 1)
+    if (vdata = 64) then {
       mp_vy = - 1
       mp_cond = 1 /* トランポリンに乗る
+    } else if (vdata <> 0) then {
+      mp_vx = 0
     }
   }
   if (trg > 0) then {
@@ -725,6 +744,16 @@ func draw_door(dr_n;int)
       iy = iy + 1
     next 
   next
+  /* 仮想画面への情報更新
+  if (dr_cond(dr_n) = 0) then {
+    /* dr_cond = 0 の時は開きドアなので仮想画面にゼロを設定
+    vpoke(dr_x(dr_n) + 1, dr_y(dr_n) + 2, 0)
+    vpoke(dr_x(dr_n) + 2, dr_y(dr_n) + 2, 0)
+  } else {
+    /* dr_cond = 1, 2 の時は閉じドアなので仮想画面に壁と同じ情報を設定
+    vpoke(dr_x(dr_n) + 1, dr_y(dr_n) + 2, 67)
+    vpoke(dr_x(dr_n) + 2, dr_y(dr_n) + 2, 67)
+  }
 endfunc
 /*
 /* 仮想画面X座標からスプライト表示X座標を取得
@@ -782,6 +811,18 @@ func char vpeek(x;int, y;int)
   char data
   data = offscr(((y - 3) * C_BG_WIDTH) + x)
   return(data)
+endfunc
+/*
+/* 仮想画面の指定座標にデータを設定する
+/* in:
+/*    int   x         仮想画面X座標
+/*    int   y         仮想画面Y座標
+/*    int   data      書き込むデータ
+/* out:
+/*    なし
+/*
+func char vpoke(x;int, y;int, data;int)
+  offscr(((y - 3) * C_BG_WIDTH) + x) = data
 endfunc
 /*
 /* 英数字表示
