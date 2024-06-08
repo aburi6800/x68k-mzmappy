@@ -68,14 +68,14 @@ int score = 0           /* スコア
 int hiscore = 20000     /* ハイスコア
 int mp_left = 0         /* 残機数
 int st = 0              /* スティック入力値
-int tr_f = 0            /* トリガ入力フラグ(入力あり=1、なし=0)
+int tr_f = 0            /* トリガ入力フラグ(1=入力あり、0=なし)
 int bg_x = 0            /* BG面の表示位置
 /* マッピー
 int mp_x = 48           /* マッピーX座標
 int mp_y = 28           /* マッピーY座標
 int mp_vx = 0           /* マッピーX移動量
 int mp_vy = 0           /* マッピーY移動量
-int mp_cd = 64          /* マッピーキャラクターパターン番号
+int mp_cd = 0           /* マッピーの向き(0=左、1=右)
 int mp_cond = 0         /* マッピーの状態
 /* 敵
 int en_type(8)          /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
@@ -91,9 +91,9 @@ int tp_cond(8)          /* トランポリンの状態
 /* ドア
 int dr_x(10)            /* ドアX座標
 int dr_y(10)            /* ドアY座標
-int dr_dir(10)          /* ドアの種類(0=右ノブ、1=左ノブ)
+int dr_dir(10)          /* ドアの種類(0=左ノブ、1=右ノブ)
 int dr_cond(10)         /* ドアの状態(0=オープン、1=通常ドアクローズ、2=パワードアクローズ)
-int dr_n                /* 操作対象ドア　
+int dr_n                /* 操作対象ドア
 /* 盗品
 int it_x(9)             /* 盗品のX座標
 int it_y(9)             /* 盗品のY座標
@@ -553,13 +553,45 @@ func move_mappy_floor()
         if (dr_cond(dr_n) = 0) then {
           /* ドアクローズ
           dr_cond(dr_n) = 1
-        } else if (dr_cond(dr_n) = 1) then {
-          /* 通常ドアオープン
-          dr_cond(dr_n) = 0
+          /* マッピーがドアにかかっているか
+          if (dr_dir(dr_n) <> mp_cd) then {
+            if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) then {
+              mp_vx = 0
+              if (mp_cd = 0) then {
+                mp_x = mp_x - 4
+              } else {
+                mp_x = mp_x + 4
+              }
+            }
+          } else {
+            if (iabs((dr_x(dr_n) + 1) - (mp_x + 2 - (mp_cd * 4))) < 4) then {
+              mp_vx = 0
+              if (mp_cd = 0) then {
+                mp_x = mp_x + 4
+              } else {
+                mp_x = mp_x - 4
+              }
+            }
+          }
         } else {
-          /* パワードアオープン
-          dr_cond(dr_n) = 0
-          /* マイクロウェーブ発生
+          /* ドアオープン
+          if (dr_cond(dr_n) = 1) then {
+            /* 通常ドアオープン
+            dr_cond(dr_n) = 0
+          } else {
+            /* パワードアオープン
+            dr_cond(dr_n) = 0
+            /* マイクロウェーブ発生
+          }
+          /* マッピーがドアにかかっているか
+          if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) and (dr_dir(dr_n) <> mp_cd) then {
+            mp_vx = 0
+            if (mp_cd = 0) then {
+              mp_x = mp_x + 4
+            } else {
+              mp_x = mp_x - 4
+            }
+          }
         }
         draw_door(dr_n)
       }
@@ -823,6 +855,17 @@ endfunc
 /*
 func char vpoke(x;int, y;int, data;int)
   offscr(((y - 3) * C_BG_WIDTH) + x) = data
+endfunc
+/* 絶対値算出(int型)
+/* in:
+/*    int   v         値
+/* out:
+/*    int   値の絶対値
+func int iabs(v;int)
+  if (v < 0) then {
+    v = v * -1
+  }
+  return(v)
 endfunc
 /*
 /* 英数字表示
@@ -1906,7 +1949,7 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H086,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
