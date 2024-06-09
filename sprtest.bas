@@ -77,6 +77,7 @@ int mp_vx = 0           /* マッピーX移動量
 int mp_vy = 0           /* マッピーY移動量
 int mp_cd = 0           /* マッピーの向き(0=左、1=右)
 int mp_cond = 0         /* マッピーの状態
+int mp_tpix = 255       /* マッピーが最後に乗ったトランポリンのインデックス
 /* 敵
 int en_type(8)          /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
 int en_x(8)             /* 敵X座標
@@ -86,8 +87,7 @@ int en_cond(8)          /* 敵の状態
 /* トランポリン
 int tp_x(8)             /* トランポリンX座標
 int tp_y(8)             /* トランポリンY座標
-int tp_h(8)             /* トランポリン耐久度
-int tp_cond(8)          /* トランポリンの状態
+int tp_cond(8)          /* トランポリンの状態(0=破れた、1=あと1回、2～4=通常)
 /* ドア
 int dr_x(10)            /* ドアX座標
 int dr_y(10)            /* ドアY座標
@@ -310,12 +310,16 @@ func game_roundinit_1()
   /* トランポリン
   tp_x(0) = 2
   tp_y(0) = 30
+  tp_cond(0) = 4
   tp_x(1) = 18
   tp_y(1) = 30
+  tp_cond(1) = 4
   tp_x(2) = 34
   tp_y(2) = 30
+  tp_cond(2) = 4
   tp_x(3) = 50
   tp_y(3) = 30
+  tp_cond(3) = 4
   /* ドア
   dr_x(0) = 10
   dr_y(0) = 7
@@ -410,12 +414,13 @@ endfunc
 func game_start()
   str s
   /* マッピー
-  mp_x = 48   /* マッピーX座標
-  mp_y = 28   /* マッピーY座標
-  mp_vx = 0   /* マッピーX移動量
-  mp_vy = 0   /* マッピーY移動量
-  mp_cd = 1   /* マッピーキャラクターパターン番号
-  mp_cond = 0 /* マッピーの状態
+  mp_x = 48       /* マッピーX座標
+  mp_y = 28       /* マッピーY座標
+  mp_vx = 0       /* マッピーX移動量
+  mp_vy = 0       /* マッピーY移動量
+  mp_cd = 1       /* マッピーキャラクターパターン番号
+  mp_cond = 0     /* マッピーの状態
+  mp_tpox = 255   /* マッピーが最後に乗ったトランポリンのインデックス 
   /* 敵配置
   en_type(0) = 2  /* ニャームコ
   en_x(0) = 37
@@ -441,16 +446,14 @@ func game_start()
   next
   /*   BG#1にトランポリン描画
   for i = 0 to 8
-    if tp_x(i) > 0 then {
-      tp_h(0) = 3
-      tp_cond(0) = 0
+    if (tp_cond(i) > 0) then {
       bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, &H34))
       bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, &H34))
     }
   next
   /*   BG#1にドア描画
   for i = 0 to 10
-    if dr_x(i) > 0 then {
+    if (dr_x(i) > 0) then {
       draw_door(i)
     }
   next
@@ -494,6 +497,7 @@ func game_main()
   }
   m_play(8)  /* ウェイト用の音符を鳴らす
   get_control()
+  draw_trampoline()
   move_mappy()
   move_enemy()
   draw_item()
@@ -512,6 +516,25 @@ func game_main()
   tick = tick + 1
 endfunc
 /*
+/* トランポリン描画
+/*
+func draw_trampoline()
+  int i
+  char v
+/*
+  for i = 0 to 8
+    if (tp_cond(i) > 1) then {
+      v = &H34
+    } else if (tp_cond(i) = 1) then {
+      v = &H2A
+    } else {
+      v = &H00
+    }
+    bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, v))
+    bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, v))
+  next
+endfunc
+/*
 /* マッピー移動
 /*
 func move_mappy()
@@ -525,8 +548,11 @@ func move_mappy()
   /* 座標変更
   mp_x = mp_x + mp_vx
   mp_y = mp_y + mp_vy
-  if mp_x < 0 then mp_x = 0
-  if mp_x > C_BG_WIDTH - 2 then mp_x = C_BG_WIDTH - 2
+  if (mp_x < 0) then mp_x = 0
+  if (mp_x > C_BG_WIDTH - 2) then mp_x = C_BG_WIDTH - 2
+  if (mp_y > 30) then {
+    mp_y = 30
+  }
   /* キャラクタ表示
   sp_move(0, spr_x(mp_x), spr_y(mp_y), mp_cd + 64)
 endfunc
@@ -631,11 +657,28 @@ endfunc
 /* マッピー上下移動
 /*
 func move_mappy_updown()
+  int i
+/*
   mp_vx = 0
-  /* 移動先チェック
-  if vpeek(mp_x, mp_y + mp_vy) <> 64 then {
-    mp_vy= -1
+  /* 移動先チェック（下）
+  if (mp_vy = 1) then {
+    /* 移動先にトランポリンがあるか
+    for i = 0 to 8
+      if (mp_x = tp_x(i)) and (mp_y + 1 = tp_y(i)) and (tp_cond(i) > 0) then {
+        mp_tpix = i
+        tp_cond(i) = tp_cond(i) - 1
+        if (tp_cond(i) > 0) then {
+          bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 119))
+          bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 118))
+          mp_vy = -1
+        } else {
+          bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 0))
+          bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 0))
+        }
+      }
+    next
   }
+  /* 移動先チェック（上）
   if vpeek(mp_x, mp_y + mp_vy) <> 64 then {
     mp_vy = 1
   }
@@ -669,12 +712,12 @@ endfunc
 /*
 func move_mappy_tofloor()
   mp_vy = 1
-/*  if mp_vx = -1 then {
-/*    mp_cd = 0
-/*  } else {
-/*    mp_cd = 1
-/*  }
   mp_cond = 0
+  /* トランポリン状態設定
+  if (mp_tpix <> 255) then {
+    tp_cond(mp_tpix) = 4
+    mp_tpix = 255
+  }
 endfunc
 /*
 /* 敵移動
