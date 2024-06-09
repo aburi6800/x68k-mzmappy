@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make Binary from X-BASIC",
+            "type": "shell",
+            "command": "m68k-xelf-bas -o ${workspaceFolder}/dist/${fileBasenameNoExtension}.x ${file}",
+        },
+        {
+            "label": "Make C-Source from X-BASIC",
+            "type": "shell",
+            "command": "m68k-xelf-bas -S -o ${workspaceFolder}/src/${fileBasenameNoExtension}.c ${file}"
+        },
+        {
+            "label": "Make Binary from C-Source",
+            "type": "shell",
+            "command": "m68k-xelf-gcc -c -specs=xc.specs -lbas -o ${workspaceFolder}/dist/${fileBasenameNoExtension}.x ${workspaceFolder}/src/${fileBasenameNoExtension}.c"
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "rm ${workspaceFolder}/dist/*"
+        }
+    ]
+}
