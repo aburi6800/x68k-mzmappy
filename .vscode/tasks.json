@@ -14,7 +14,7 @@
             "command": "m68k-xelf-bas -S -o ${workspaceFolder}/src/${fileBasenameNoExtension}.c ${file}"
         },
         {
-            "label": "Make Binary from C-Source",
+            "label": "Make Binary from C-Source(BASIC Convert)",
             "type": "shell",
             "command": "m68k-xelf-gcc -c -specs=xc.specs -lbas -o ${workspaceFolder}/dist/${fileBasenameNoExtension}.x ${workspaceFolder}/src/${fileBasenameNoExtension}.c"
         },
