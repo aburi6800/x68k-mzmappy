@@ -193,6 +193,7 @@ endfunc
 /*
 func game_title()
   int i, j
+  str s
   /* 画面消す
   erase_all()
   bg_set(0, 0, 0)
@@ -201,14 +202,21 @@ func game_title()
     for j = 0 to 31
       bg_put(1, j, 2 + i, pat_dat(0, 0, 1, title_chr(i * 32 + j)))
     next
-  next                   
-  bg_print( 4, 12, "PUSH TRIGGER TO START !!")
-  bg_print( 7, 15, "1ST EXTEND 20000PT")
-  bg_print( 7, 18, "2ND EXTEND 70000PT")
-  bg_print(12, 22, "(C)NAMCO")
-  bg_print( 0, 26, "PROGRAM ARRANGED BY DEMPA")
-  bg_print(18, 27, "AND GAME ROMAN")
-  bg_print( 0, 29, "REPROGRAMMED BY ABURI GAMES 2024")
+  next
+  s = "PUSH TRIGGER TO START !!"
+  bg_print( 4, 12, s)
+  s = "1ST EXTEND 20000PT"
+  bg_print( 7, 15, s)
+  s = "2ND EXTEND 70000PT"
+  bg_print( 7, 18, s)
+  s = "(C)NAMCO"
+  bg_print(12, 22, s)
+  s = "PROGRAM ARRANGED BY DEMPA"
+  bg_print( 0, 26, s)
+  s = "AND GAME ROMAN"
+  bg_print(18, 27, s)
+  s = "REPROGRAMMED BY ABURI GAMES 2024"
+  bg_print( 0, 29, s)
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
   while trg = 0
@@ -224,6 +232,7 @@ endfunc
 /* ゲームオープニング
 /*
 func game_opening()
+  str s
   erase_all()
   bg_set(0, 0, 0)
   bg_set(1, 1, 0)
@@ -231,7 +240,8 @@ func game_opening()
     bg_put(1, i, 30, pat_dat(0, 0, 1, &H4A))
     bg_put(1, i, 31, pat_dat(0, 0, 1, &H4A))
   next
-  bg_print(4, 9, "NOW ON GO TO THE STORY!")
+  s = "NOW ON GO TO THE STORY!"
+  bg_print(4, 9, s)
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
   sp_move(1, spr_x(6),  spr_y(28), 75) /* ニャームコ左
@@ -398,6 +408,7 @@ endfunc
 /* ラウンドスタート
 /*
 func game_start()
+  str s
   /* マッピー
   mp_x = 48   /* マッピーX座標
   mp_y = 28   /* マッピーY座標
@@ -444,14 +455,22 @@ func game_start()
     }
   next
   /*   BG#0にスコアなどを描画
-  bg_print(5, 0, "1UP")
-  bg_print(11, 0, "HI-SCORE")
-  bg_print(22, 0, "MP")
-  bg_print(27, 0, "R")
-  bg_print(9, 1, "0")
-  bg_print(14, 1, "20000")
-  bg_print(23, 1, "1")
-  bg_print(27, 1, "1")
+  s = "1UP"
+  bg_print(5, 0, s)
+  s = "HI-SCORE"
+  bg_print(11, 0, s)
+  s = "MP"
+  bg_print(22, 0, s)
+  s = "R"
+  bg_print(27, 0, s)
+  s = "0"
+  bg_print(9, 1, s)
+  s = "20000"
+  bg_print(14, 1, s)
+  s = "1"
+  bg_print(23, 1, s)
+  s = "1"
+  bg_print(27, 1, s)
   /* BG初期位置セット
   bg_x = 22
   bg_scroll(1, bg_x * 8, 0)
