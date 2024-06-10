@@ -16,7 +16,7 @@
         {
             "label": "Make Binary from C-Source(BASIC Convert)",
             "type": "shell",
-            "command": "m68k-xelf-gcc -c -specs=xc.specs -lbas -o ${workspaceFolder}/dist/${fileBasenameNoExtension}.x ${workspaceFolder}/src/${fileBasenameNoExtension}.c"
+            "command": "m68k-xelf-gcc -c -specs=xc.specs -o ${workspaceFolder}/dist/${fileBasenameNoExtension}.x ${workspaceFolder}/src/${fileBasenameNoExtension}.c -lbas"
         },
         {
             "label": "Clean",
