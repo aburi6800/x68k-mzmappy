@@ -26,6 +26,11 @@ int C_GAME_STATUS_CLEAR = 6
 int C_GAME_STATUS_MISS = 7
 int C_GAME_STATUS_OVER = 8
 int C_GAME_STATUS_QUIT = -1
+/*
+int C_DIR_LEFT = 0
+int C_DIR_RIGHT = 1
+int C_DIR_CENTER = 2
+/*
 dim char title_chr(32 * 6)
 /* タイトルのキャラクターデータ
 /*             0                                       1                                       2                                       3
@@ -77,7 +82,7 @@ int mp_x = 48           /* マッピーX座標
 int mp_y = 28           /* マッピーY座標
 int mp_vx = 0           /* マッピーX移動量
 int mp_vy = 0           /* マッピーY移動量
-int mp_cd = 0           /* マッピーの向き(0=左、1=右)
+int mp_dir = C_DIR_LEFT /* マッピーの向き(0=左、1=右)
 int np_anim = 0         /* マッピーのアニメパターン(0, 1)
 int mp_cond = 0         /* マッピーの状態
 int mp_tpix = 255       /* マッピーが最後に乗ったトランポリンのインデックス
@@ -791,26 +796,26 @@ endfunc
 func game_start()
   str s
   /* マッピー
-  mp_x = 48       /* マッピーX座標
-  mp_y = 28       /* マッピーY座標
-  mp_vx = 0       /* マッピーX移動量
-  mp_vy = 0       /* マッピーY移動量
-  mp_cd = 1       /* マッピーキャラクターパターン番号
-  mp_anim = 0     /* マッピーのアニメパターン
-  mp_cond = 0     /* マッピーの状態
-  mp_tpox = 255   /* マッピーが最後に乗ったトランポリンのインデックス 
+  mp_x = 48               /* マッピーX座標
+  mp_y = 28               /* マッピーY座標
+  mp_vx = 0               /* マッピーX移動量
+  mp_vy = 0               /* マッピーY移動量
+  mp_dir = C_DIR_RIGHT    /* マッピーの向き
+  mp_anim = 0             /* マッピーのアニメパターン
+  mp_cond = 0             /* マッピーの状態
+  mp_tpox = 255           /* マッピーが最後に乗ったトランポリンのインデックス 
   /* 敵配置
-  en_type(0) = 2  /* ニャームコ
+  en_type(0) = 2          /* ニャームコ
   en_x(0) = 37
   en_y(0) = 12
-  en_cp(0) = 0    /* 左
+  en_cp(0) = C_DIR_LEFT   /* 左
   en_anim(0) = 0
   en_cond(0) = 0
   /*
-  en_type(1) = 1  /* ミューキーズ
+  en_type(1) = 1          /* ミューキーズ
   en_x(1) = 10
   en_y(1) = 16
-  en_cp(1) = 1    /* 右
+  en_cp(1) = C_DIR_RIGHT  /* 右
   en_anim(1) = 0
   en_cond(1) = 0
   /* 画面消す
@@ -934,7 +939,7 @@ func move_mappy()
     mp_y = 30
   }
   /* キャラクタ表示
-  sp_move(0, spr_x(mp_x), spr_y(mp_y), (mp_cd * 2) + 64 + mp_anim)
+  sp_move(0, spr_x(mp_x), spr_y(mp_y), (mp_dir * 2) + 64 + mp_anim)
   /* アニメパターン変更
   mp_anim = mp_anim xor 1
 endfunc
@@ -948,7 +953,7 @@ func move_mappy_floor()
   mp_vx = 0
   if (stk = 4) then {
     /* 左入力
-    mp_cd = 0
+    mp_dir = C_DIR_LEFT
     mp_vx = - 1
     /* BG判定
     vdata = vpeek(mp_x - 1, mp_y + 1)
@@ -960,7 +965,7 @@ func move_mappy_floor()
     }
   } else if (stk = 6) then {
     /* 右入力
-    mp_cd = 1
+    mp_dir = C_DIR_RIGHT
     mp_vx = 1
     /* BG判定
     vdata = vpeek(mp_x + 2, mp_y + 1)
@@ -975,25 +980,25 @@ func move_mappy_floor()
     if (tr_f = 0) then {
       tr_f = 1
       /* 操作対象ドア検索
-      dr_n = search_door(mp_x, mp_y, mp_cd)
+      dr_n = search_door(mp_x, mp_y, mp_dir)
       if dr_n <> 255 then {
         if (dr_cond(dr_n) = 0) then {
           /* ドアクローズ
           dr_cond(dr_n) = 1
           /* マッピーがドアにかかっているか
-          if (dr_dir(dr_n) <> mp_cd) then {
+          if (dr_dir(dr_n) <> mp_dir) then {
             if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) then {
               mp_vx = 0
-              if (mp_cd = 0) then {
+              if (mp_dir = C_DIR_LEFT) then {
                 mp_x = mp_x - 4
               } else {
                 mp_x = mp_x + 4
               }
             }
           } else {
-            if (iabs((dr_x(dr_n) + 1) - (mp_x + 2 - (mp_cd * 4))) < 4) then {
+            if (iabs((dr_x(dr_n) + 1) - (mp_x + 2 - (mp_dir * 4))) < 4) then {
               mp_vx = 0
-              if (mp_cd = 0) then {
+              if (mp_dir = C_DIR_LEFT) then {
                 mp_x = mp_x + 4
               } else {
                 mp_x = mp_x - 4
@@ -1011,9 +1016,9 @@ func move_mappy_floor()
             /* マイクロウェーブ発生
           }
           /* マッピーがドアにかかっているか
-          if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) and (dr_dir(dr_n) <> mp_cd) then {
+          if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) and (dr_dir(dr_n) <> mp_dir) then {
             mp_vx = 0
-            if (mp_cd = 0) then {
+            if (mp_dir = C_DIR_LEFT) then {
               mp_x = mp_x + 4
             } else {
               mp_x = mp_x - 4
@@ -1032,7 +1037,7 @@ endfunc
 /*
 func move_mappy_toupdown()
   mp_vy = 1
-  mp_cd = 2
+  mp_dir = C_DIR_CENTER
   mp_cond = 2
 endfunc
 /*
@@ -1070,7 +1075,7 @@ func move_mappy_updown()
       /* 左入力
       if vpeek(mp_x - 1, mp_y + 1) = 0 then {
         mp_cond = 3
-        mp_cd = 0
+        mp_dir = C_DIR_LEFT
         mp_vx = -1
         mp_vy = - 1
       } else {
@@ -1080,7 +1085,7 @@ func move_mappy_updown()
       /* 右入力
       if vpeek(mp_x + 2, mp_y + 1) = 0 then {
         mp_cond = 3
-        mp_cd = 1
+        mp_dir = C_DIR_RIGHT
         mp_vx = 1
         mp_vy = - 1
       } else {
