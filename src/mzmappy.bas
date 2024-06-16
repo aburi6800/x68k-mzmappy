@@ -74,6 +74,7 @@ int round = 0           /* ラウンド数
 int score = 0           /* スコア
 int hiscore = 20000     /* ハイスコア
 int mp_left = 0         /* 残機数
+int item_left = 0       /* 盗品の残り
 int st = 0              /* スティック入力値
 int tr_f = 0            /* トリガ入力フラグ(1=入力あり、0=なし)
 int bg_x = 0            /* BG面の表示位置
@@ -119,7 +120,7 @@ while game_status <> C_GAME_STATUS_QUIT
     case 3 : game_roundinit() : break
     case 4 : game_start()     : break
     case 5 : game_main()      : break
-/*    case 6 : game_clear()     : break
+    case 6 : game_clear()     : break
 /*    case 7 : game_miss()      : break
 /*    case 8 : game_over()      : break
     default : break
@@ -191,7 +192,7 @@ func game_init()
   /* trk4 : エクステンド
   m_trk(4, "@31t180l8o5v13dc16>af#16<c#.d#.f2.")
   /* trk5 : ラウンドクリア
-  m_trk(5, "@31t180l8o4v13ga16bg16er16dr.f#r16gr")
+  m_trk(5, "@31t180l8o4v13r2ga16bg16er16dr.f#r16gr2")
   /* trk6 : ミス
   m_trk(6, "@31t180l8o4v13e<c16>a#g16<c#c16>a#g16d#4&d#16dr2")
   /* ゲーム状態を変更
@@ -271,7 +272,7 @@ endfunc
 /*
 func game_roundinit()
   /* ラウンドデータ設定
-  switch round
+  switch round mod 12
     case 1 : game_roundinit_1() : break
     case 2 : game_roundinit_2() : break
     case 3 : game_roundinit_3() : break
@@ -287,6 +288,7 @@ func game_roundinit()
     default : break
   endswitch
   /* 盗品
+  item_left = 10
   it_type(0) = 1  /* カセット
   it_cond(0) = 1  /* 通常
   it_x(0) = 46
@@ -1301,13 +1303,13 @@ func game_start()
   bg_print(22, 0, s)
   s = "R"
   bg_print(27, 0, s)
-  s = "0"
+  s = str$(score)
   bg_print(9, 1, s)
   s = "20000"
   bg_print(14, 1, s)
-  s = "1"
+  s = str$(mp_left)
   bg_print(23, 1, s)
-  s = "1"
+  s = str$(round)
   bg_print(27, 1, s)
   /* BG初期位置セット
   bg_x = 22
@@ -1584,7 +1586,7 @@ func move_myukies(num;int)
   sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 70 + en_anim(num) + (en_cp(num) * 2))
 endfunc
 /*
-/* アイテム表示
+/* 盗品表示
 /*
 func draw_item()
   int i, j
@@ -1612,6 +1614,11 @@ func draw_item()
           if (it_type(i + 1) = it_type(i) and it_cond(i + 1) > 0) then {
             it_cond(i + 1) = 2
           }
+        }
+        /* 盗品の残りをデクリメント
+        item_left = item_left - 1
+        if (item_left = 0) then {
+          game_status = C_GAME_STATUS_CLEAR
         }
       }
       /* 表示
@@ -1685,6 +1692,19 @@ func draw_door(dr_n;int)
     vpoke(dr_x(dr_n) + 1, dr_y(dr_n) + 2, 67)
     vpoke(dr_x(dr_n) + 2, dr_y(dr_n) + 2, 67)
   }
+endfunc
+/*
+/* ラウンドクリア
+/*
+func game_clear()
+  m_stop()
+  m_assign(1, 5) /* ch1 : trk5(ラウンドクリア)
+  m_play(1)
+  while m_stat(1) = 1
+  endwhile
+  /*
+  round = round + 1
+  game_status = C_GAME_STATUS_ROUNDINIT
 endfunc
 /*
 /* 仮想画面X座標からスプライト表示X座標を取得
