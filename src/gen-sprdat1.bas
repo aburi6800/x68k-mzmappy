@@ -31,7 +31,7 @@ end
 /*
 func sp_write(n;char)
     fputc(n, f)
-    fwrite(c, 255, f)
+    fwrite(c, 256, f)
 endfunc
 /*
 /* 以降はsprdeftool.basのエクスポートソースを取り込み、

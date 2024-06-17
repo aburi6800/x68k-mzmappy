@@ -5,3 +5,4 @@
 *.elf
 bas2c.*
 src/test/*.*
+dist/*.dat

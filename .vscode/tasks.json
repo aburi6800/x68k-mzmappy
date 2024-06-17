@@ -22,6 +22,11 @@
             "label": "Clean",
             "type": "shell",
             "command": "rm ${workspaceFolder}/dist/*"
-        }
+        },
+        {
+            "label": "Setup",
+            "type": "shell",
+            "command": "cp ${workspaceFolder}/src/*.dat ${workspaceFolder}/dist"
+        },
     ]
 }
