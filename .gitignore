@@ -4,3 +4,4 @@
 *.c
 *.elf
 bas2c.*
+src/test/*.*
