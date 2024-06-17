@@ -1414,6 +1414,8 @@ func move_mappy_updown()
           bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 119))
           bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 118))
           mp_vy = -1
+          score = score + 10
+          bg_printscore()
         } else {
           bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 0))
           bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 0))
@@ -1500,6 +1502,7 @@ func draw_item()
       if (it_x(i) = mp_x and it_y(i) = mp_y) then {
         /* ƒXƒRƒA‰ÁŽZ
         score = score + (it_type(i) * 100 * it_cond(i))
+        bg_printscore()
         /* Žæ‚Á‚½“•i‚ðŽæ“¾Ï‚É‚·‚é
         it_cond(i) = 0
         /* ˆê’U‚·‚×‚Ä‚Ì2”{ó‘Ô‚ðƒLƒƒƒ“ƒZƒ‹‚·‚é
@@ -1744,6 +1747,9 @@ endfunc
 func bg_printscore()
     str s
     /*
+    if (score > hiscore) then {
+      hiscore = score
+    }
     s = right$("      " + str$(score), 6)
     bg_print(4, 1, s)
     s = right$("      " + str$(hiscore) , 6)
