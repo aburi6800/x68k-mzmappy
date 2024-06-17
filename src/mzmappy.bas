@@ -1206,14 +1206,15 @@ func game_start()
   bg_print(22, 0, s)
   s = "R"
   bg_print(27, 0, s)
-  s = str$(score)
-  bg_print(9, 1, s)
-  s = "20000"
-  bg_print(14, 1, s)
+/*  s = str$(score)
+/*  bg_print(9, 1, s)
+/*  s = "20000"
+/*  bg_print(14, 1, s)
+  bg_printscore()
   s = str$(mp_left)
   bg_print(23, 1, s)
-  s = str$(round)
-  bg_print(27, 1, s)
+  s = right$("  " + str$(round), 2)
+  bg_print(26, 1, s)
   /* BG初期位置セット
   bg_x = 22
   bg_scroll(1, bg_x * 8, 0)
@@ -1732,6 +1733,21 @@ func bg_print(x;char, y;char, value;str)
     bg_put(0, x + p, y, pat_dat(0, 0, 1, data))
     p = p + 1
   endwhile
+endfunc
+/*
+/* スコア表示
+/* in:
+/*    なし
+/* out:
+/*    なし
+/*
+func bg_printscore()
+    str s
+    /*
+    s = right$("      " + str$(score), 6)
+    bg_print(4, 1, s)
+    s = right$("      " + str$(hiscore) , 6)
+    bg_print(13, 1, s)
 endfunc
 /*
 /* パターンデータ取得
