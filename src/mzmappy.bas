@@ -92,7 +92,7 @@ int en_type(8)          /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
 int en_x(8)             /* 敵X座標
 int en_y(8)             /* 敵Y座標
 int en_cp(8)            /* 敵キャラクターパターン番号
-int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1)
+int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1, 2)
 int en_cond(8)          /* 敵の状態
 /* トランポリン
 int tp_x(8)             /* トランポリンX座標
@@ -271,20 +271,39 @@ endfunc
 /* ラウンド初期化
 /*
 func game_roundinit()
+  for i = 0 to 8
+    en_type(i) = 0
+    en_x(i) = 0
+    en_y(i) = 0
+    en_cp(i) = 0
+    en_anim(i) = 0
+    en_cond(i) = 0
+  next
+  for i = 0 to 8
+    tp_x(i) = 0
+    tp_y(i) = 0
+    tp_cond(i) = 0
+  next
+  for i = 0 to 10
+    dr_x(i) = 0
+    dr_y(i) = 0
+    dr_dir(i) = 0
+    dr_cond(i) = 0
+  next
   /* ラウンドデータ設定
-  switch round mod 12
-    case 1 : game_roundinit_1() : break
-    case 2 : game_roundinit_2() : break
-    case 3 : game_roundinit_3() : break
-    case 4 : game_roundinit_4() : break
-    case 5 : game_roundinit_5() : break
-    case 6 : game_roundinit_6() : break
-    case 7 : game_roundinit_7() : break
-    case 8 : game_roundinit_8() : break
-    case 9 : game_roundinit_9() : break
-    case 10 : game_roundinit_10() : break
-    case 11 : game_roundinit_11() : break
-    case 12 : game_roundinit_12() : break
+  switch ((round - 1) mod 12)
+    case 0 : game_roundinit_1() : break
+    case 1 : game_roundinit_2() : break
+    case 2 : game_roundinit_3() : break
+    case 3 : game_roundinit_4() : break
+    case 4 : game_roundinit_5() : break
+    case 5 : game_roundinit_6() : break
+    case 6 : game_roundinit_7() : break
+    case 7 : game_roundinit_8() : break
+    case 8 : game_roundinit_9() : break
+    case 9 : game_roundinit_10() : break
+    case 10 : game_roundinit_11() : break
+    case 11 : game_roundinit_12() : break
     default : break
   endswitch
   /* 盗品
@@ -356,7 +375,7 @@ func game_roundinit_1()
   dr_y(0) = 7
   dr_dir(0) = C_DIR_RIGHT   /* 右
   dr_cond(0) = 1            /* ドアクローズ(通常)
-  dr_x(1) = 41
+  dr_x(1) = 42
   dr_y(1) = 7
   dr_dir(1) = C_DIR_LEFT    /* 左
   dr_cond(1) = 2            /* ドアクローズ(パワー)
@@ -382,7 +401,7 @@ func game_roundinit_1()
   dr_x(6) = 25
   dr_y(6) = 19
   dr_dir(6) = C_DIR_LEFT    /* 左
-  dr_cond(6) = 0            /* ドアオープン
+  dr_cond(6) = 1            /* ドアクローズ(通常)
   /*
   dr_x(7) = 41
   dr_y(7) = 23
@@ -493,10 +512,10 @@ func game_roundinit_3()
   dr_y(0) = 7
   dr_dir(0) = C_DIR_RIGHT   /* 右
   dr_cond(0) = 2            /* ドアクローズ(パワー)
-  dr_x(1) = 41
+  dr_x(1) = 42
   dr_y(1) = 7
   dr_dir(1) = C_DIR_LEFT    /* 左
-  dr_cond(1) = 0            /* ドアオープン(通常)
+  dr_cond(1) = 1            /* ドアクローズ(通常)
   /*
   dr_x(2) = 3
   dr_y(2) = 11
@@ -516,7 +535,7 @@ func game_roundinit_3()
   dr_y(5) = 27
   dr_dir(5) = C_DIR_RIGHT   /* 右
   dr_cond(5) = 2            /* ドアクローズ(パワー)
-  dr_x(6) = 41
+  dr_x(6) = 42
   dr_y(6) = 27
   dr_dir(6) = C_DIR_LEFT    /* 左
   dr_cond(6) = 1            /* ドアクローズ(通常)
@@ -547,7 +566,7 @@ func game_roundinit_4()
   dr_x(0) = 14
   dr_y(0) = 7
   dr_dir(0) = C_DIR_RIGHT   /* 右
-  dr_cond(0) = 0            /* ドアオープン(通常)
+  dr_cond(0) = 1            /* ドアクローズ(通常)
   /*
   dr_x(1) = 7
   dr_y(1) = 11
@@ -643,7 +662,7 @@ func game_roundinit_5()
   dr_x(7) = 31
   dr_y(7) = 27
   dr_dir(7) = C_DIR_RIGHT   /* 右
-  dr_cond(7) = 0            /* ドアオープン
+  dr_cond(7) = 1            /* ドアクローズ(通常)
 endfunc
 /* ラウンド6
 func game_roundinit_6()
@@ -674,12 +693,12 @@ func game_roundinit_6()
   dr_x(0) = 43
   dr_y(0) = 7
   dr_dir(0) = C_DIR_LEFT    /* 左
-  dr_cond(0) = 0            /* ドアオープン
+  dr_cond(0) = 1            /* ドアクローズ(通常)
   /*
   dr_x(1) = 3
   dr_y(1) = 11
   dr_dir(1) = C_DIR_RIGHT   /* 右
-  dr_cond(1) = 0            /* ドアオープン
+  dr_cond(1) = 1            /* ドアクローズ(通常)
   dr_x(2) = 47
   dr_y(2) = 11
   dr_dir(2) = C_DIR_LEFT    /* 左
@@ -803,7 +822,7 @@ func game_roundinit_8()
   dr_x(0) = 7
   dr_y(0) = 11
   dr_dir(0) = C_DIR_LEFT    /* 左
-  dr_cond(0) = 1            /* ドアクローズ(通常)
+  dr_cond(0) = 2            /* ドアクローズ(パワー)
   dr_x(1) = 43
   dr_y(1) = 11
   dr_dir(1) = C_DIR_LEFT    /* 左
@@ -812,7 +831,7 @@ func game_roundinit_8()
   dr_x(2) = 7
   dr_y(2) = 15
   dr_dir(2) = C_DIR_RIGHT   /* 右
-  dr_cond(2) = 0            /* ドアオープン
+  dr_cond(2) = 1            /* ドアクローズ(通常)
   /*
   dr_x(3) = 43
   dr_y(3) = 19
@@ -831,7 +850,7 @@ func game_roundinit_8()
   dr_x(6) = 25
   dr_y(6) = 27
   dr_dir(6) = C_DIR_LEFT    /* 左
-  dr_cond(6) = 2            /* ドアクローズ(通常)
+  dr_cond(6) = 2            /* ドアクローズ(パワー)
 endfunc
 /* ラウンド9
 func game_roundinit_9()
@@ -953,7 +972,7 @@ func game_roundinit_10()
   dr_x(7) = 31
   dr_y(7) = 27
   dr_dir(7) = C_DIR_RIGHT   /* 右
-  dr_cond(7) = 0            /* ドアオープン
+  dr_cond(7) = 1            /* ドアクローズ(通常)
 endfunc
 /* ラウンド11
 func game_roundinit_11()
@@ -1020,11 +1039,11 @@ func game_roundinit_12()
   dr_x(0) = 9
   dr_y(0) = 7
   dr_dir(0) = C_DIR_RIGHT   /* 右
-  dr_cond(0) = 0            /* ドアオープン
+  dr_cond(0) = 1            /* ドアクローズ(通常)
   dr_x(1) = 41
   dr_y(1) = 7
   dr_dir(1) = C_DIR_LEFT    /* 左
-  dr_cond(1) = 0            /* ドアオープン
+  dr_cond(1) = 1            /* ドアクローズ(通常)
   /*
   dr_x(2) = 25
   dr_y(2) = 11
@@ -1591,12 +1610,12 @@ endfunc
 func draw_item()
   int i, j
   for i = 0 to 9
-    /* 取得チェック
+    /* 盗品取得チェック
     if (it_cond(i) > 0) then {
       if (it_x(i) = mp_x and it_y(i) = mp_y) then {
         /* スコア加算
         score = score + (it_type(i) * 100 * it_cond(i))
-        /* 取ったアイテムは取得済にする
+        /* 取った盗品を取得済にする
         it_cond(i) = 0
         /* 一旦すべての2倍状態をキャンセルする
         for j = 0 to 9
@@ -1604,7 +1623,7 @@ func draw_item()
             it_cond(j) = 1
           }
         next
-        /* 取ったアイテムと同じものがまだ残っている場合は、2倍状態にする
+        /* 取った盗品と同じものがまだ残っている場合は、2倍状態にする
         if (i > 0) then {
           if (it_type(i - 1) = it_type(i) and it_cond(i - 1) > 0) then {
             it_cond(i - 1) = 2
