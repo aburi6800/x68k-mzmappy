@@ -63,12 +63,13 @@ dr_chr = {114,115,  0,  0  /* (0, 0～11) オープン・左
          ,  0, 30, 94,  0
 }
 /* 変数
-int i, j
-int tick
-int trg
-int trg_bk
-int stk
-str errmsg[255]
+int i, j 
+int tick                /* ゲーム経過時間
+int trg                 /* トリガ入力値
+int trg_bk              /* トリガ入力値(保存用)
+int stk                 /* ジョイスティック入力値
+int pb                  /* パレットブロック
+str errmsg[255]         /* エラーメッセージ
 dim char offscr(54*29)  /* オフスクリーン
 int game_status = 0     /* ゲーム状態
 int opt_machine = 0     /* オプション：マシーンモード
@@ -80,8 +81,6 @@ int score = 0           /* スコア
 int hiscore = 20000     /* ハイスコア
 int mp_left = 0         /* 残機数
 int item_left = 0       /* 盗品の残り
-int st = 0              /* スティック入力値
-int tr_f = 0            /* トリガ入力フラグ(1=入力あり、0=なし)
 int bg_x = 0            /* BG面の表示位置
 /* マッピー
 int mp_x = 48           /* マッピーX座標
@@ -1206,9 +1205,24 @@ func game_start()
   bg_set(0, 0, 0)
   bg_set(1, 1, 0)
   /*   BG#1に屋敷描画
-  for i = 0 to 28
+  pb = 1
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    switch (round mod 3)
+      case 1 : pb = 3 : break /* 赤
+      case 2 : pb = 5 : break /* 緑
+      case 0 : pb = 2 : break /* 青
+      default : break
+    endswitch
+  }
+  for i = 0 to 3
     for j = 0 to 53
-      bg_put(1, j, i+3, pat_dat(0, 0, 1, offscr(i*54 + j)))
+      bg_put(1, j, i+3, pat_dat(0, 0, pb, offscr(i*54 + j)))
+    next
+  next
+  pb = 1
+  for i = 4 to 28
+    for j = 0 to 53
+      bg_put(1, j, i+3, pat_dat(0, 0, pb, offscr(i*54 + j)))
     next
   next
   /*   BG#1にトランポリン描画
@@ -1293,14 +1307,25 @@ func draw_trampoline()
       } else {
         v = &H34
       }
+      if ((opt_machine = 1) or (opt_machine = 2)) then {
+        switch tp_cond(i)
+          case 4 : pb = 1 : break   /* 白
+          case 3 : pb = 2 : break   /* 青
+          case 2 : pb = 7 : break   /* 黄
+          case 1 : pb = 3 : break   /* 赤
+          default : break
+        endswitch
+      } else {
+        pb = 1
+      }
       vpoke(tp_x(i)    , tp_y(i), 0)
       vpoke(tp_x(i) + 1, tp_y(i), 0)
     } else {
       v = &H00
     }
-    bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, v))
-    bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, v))
-next
+    bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, pb, v))
+    bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, pb, v))
+  next
 endfunc
 /*
 /* マッピー移動
@@ -1326,7 +1351,13 @@ func move_mappy()
     mp_y = 30
   }
   /* キャラクタ表示
-  sp_move(0, spr_x(mp_x), spr_y(mp_y), (mp_dir * 2) + 64 + mp_anim)
+/*  sp_move(0, spr_x(mp_x), spr_y(mp_y), (mp_dir * 2) + 64 + mp_anim)
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    pb = 6
+  } else {
+    pb = 1
+  }
+  sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
   /* アニメパターン変更
   mp_anim = mp_anim xor 1
 endfunc
@@ -1364,46 +1395,24 @@ func move_mappy_floor()
     }
   }
   if (trg > 0) then {
-    if (tr_f = 0) then {
-      tr_f = 1
-      /* 操作対象ドア検索
-      dr_n = search_door(mp_x, mp_y, mp_dir)
-      if (dr_n <> 255) then {
-        if (dr_cond(dr_n) = 0) then {
-          /* ドアクローズ
-          dr_cond(dr_n) = 1
-          /* マッピーがドアにかかっているか
-          if (dr_dir(dr_n) <> mp_dir) then {
-            if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) then {
-              mp_vx = 0
-              if (mp_dir = C_DIR_LEFT) then {
-                mp_x = mp_x - 4
-              } else {
-                mp_x = mp_x + 4
-              }
-            }
-          } else {
-            if (iabs((dr_x(dr_n) + 1) - (mp_x + 2 - (mp_dir * 4))) < 4) then {
-              mp_vx = 0
-              if (mp_dir = C_DIR_LEFT) then {
-                mp_x = mp_x + 4
-              } else {
-                mp_x = mp_x - 4
-              }
+    /* 操作対象ドア検索
+    dr_n = search_door(mp_x, mp_y, mp_dir)
+    if (dr_n <> 255) then {
+      if (dr_cond(dr_n) = 0) then {
+        /* ドアクローズ
+        dr_cond(dr_n) = 1
+        /* マッピーがドアにかかっているか
+        if (dr_dir(dr_n) <> mp_dir) then {
+          if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) then {
+            mp_vx = 0
+            if (mp_dir = C_DIR_LEFT) then {
+              mp_x = mp_x - 4
+            } else {
+              mp_x = mp_x + 4
             }
           }
         } else {
-          /* ドアオープン
-          if (dr_cond(dr_n) = 1) then {
-            /* 通常ドアオープン
-            dr_cond(dr_n) = 0
-          } else {
-            /* パワードアオープン
-            dr_cond(dr_n) = 0
-            /* マイクロウェーブ発生
-          }
-          /* マッピーがドアにかかっているか
-          if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) and (dr_dir(dr_n) <> mp_dir) then {
+          if (iabs((dr_x(dr_n) + 1) - (mp_x + 2 - (mp_dir * 4))) < 4) then {
             mp_vx = 0
             if (mp_dir = C_DIR_LEFT) then {
               mp_x = mp_x + 4
@@ -1412,11 +1421,28 @@ func move_mappy_floor()
             }
           }
         }
-        draw_door(dr_n)
+      } else {
+        /* ドアオープン
+        if (dr_cond(dr_n) = 1) then {
+          /* 通常ドアオープン
+          dr_cond(dr_n) = 0
+        } else {
+          /* パワードアオープン
+          dr_cond(dr_n) = 0
+          /* マイクロウェーブ発生
+        }
+        /* マッピーがドアにかかっているか
+        if (iabs((dr_x(dr_n) + 1) - mp_x) < 3) and (dr_dir(dr_n) <> mp_dir) then {
+          mp_vx = 0
+          if (mp_dir = C_DIR_LEFT) then {
+            mp_x = mp_x + 4
+          } else {
+            mp_x = mp_x - 4
+          }
+        }
       }
+      draw_door(dr_n)
     }
-  } else {
-    tr_f = 0
   }
 endfunc
 /*
@@ -1516,14 +1542,26 @@ endfunc
 /*
 func move_nyamco(num;int)
   /* 固定で置いておく
-  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 78 + en_anim(num) + (en_cp(num) * 2))
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    pb = 3
+  } else {
+    pb = 1
+  }
+/*  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 78 + en_anim(num) + (en_cp(num) * 2))
+  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 78 + en_anim(num) + (en_cp(num) * 2)))
 endfunc
 /*
 /* ミューキーズ移動
 /*
 func move_myukies(num;int)
   /* 固定で置いておく
-  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 70 + en_anim(num) + (en_cp(num) * 2))
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    pb = 4
+  } else {
+    pb = 1
+  }
+/*  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 70 + en_anim(num) + (en_cp(num) * 2))
+  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 70 + en_anim(num) + (en_cp(num) * 2)))
 endfunc
 /*
 /* 盗品表示
@@ -1708,8 +1746,8 @@ func game_option()
     endwhile
   endwhile
   /* オプション設定値反映
-  opt_machone = menu_val(0)
-  opt_levtl = menu_val(1)
+  opt_machine = menu_val(0)
+  opt_level = menu_val(1)
   opt_left = menu_val(2) * 2 + 1
   game_status = C_GAME_STATUS_TITLE   /* タイトル
 endfunc
@@ -1929,9 +1967,9 @@ func bg_pattern()
 endfunc
 /*
 /* パレットの設定
-/* とりあえずパレットブロック1だけ定義
 /*
 func sprite_pallet()
+  /* パレットブロック1：白
   sp_color(0,0,1)
   sp_color(1,1,1)
   sp_color(2,32,1)
@@ -1948,5 +1986,29 @@ func sprite_pallet()
   sp_color(13,65472,1)
   sp_color(14,44394,1)
   sp_color(15,65534,1)
+  /* パレットブロック2：青
+  sp_color(0,0,2)
+  sp_color(1,1,2)
+  sp_color(15,62,2)
+  /* パレットブロック3：赤
+  sp_color(0,0,3)
+  sp_color(1,1,3)
+  sp_color(15,1984,3)
+  /* パレットブロック4：マゼンタ
+  sp_color(0,0,4)
+  sp_color(1,1,4)
+  sp_color(15,2046,4)
+  /* パレットブロック5：緑
+  sp_color(0,0,5)
+  sp_color(1,1,5)
+  sp_color(15,63488,5)
+  /* パレットブロック6：水色
+  sp_color(0,0,6)
+  sp_color(1,1,6)
+  sp_color(15,63550,6)
+  /* パレットブロック7：黄色
+  sp_color(0,0,7)
+  sp_color(1,1,7)
+  sp_color(15,65472,7)
 endfunc
 
