@@ -11,7 +11,7 @@ str fname
 str ans
 dim char c(63)
 /*
-fname = "bg1.dat"
+fname = "bg.dat"
 /*
 cls
 print "カレントディレクトリに" ; fname ; "を作成します。"
@@ -335,7 +335,18 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_write(26)
-  /* (パワードア左パーツ)
+  /* ┼
+  c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+  }
+  sp_write(27)
+  /* ├(パワードア左パーツ)
   c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
@@ -621,6 +632,28 @@ func bg_pattern()
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
   }
   sp_write(74)
+  /* ┌(円)
+  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+  }
+  sp_write(75)
+  /* ┐(円)
+  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+  }
+  sp_write(76)
   /* ?
   c={&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
     ,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0
@@ -676,7 +709,7 @@ func bg_pattern()
     ,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_write(86)
-  /* (パワードア右パーツ)
+  /* ┤(パワードア右パーツ)
   c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
@@ -687,6 +720,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
   }
   sp_write(94)
+  /* ┬
+  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+  }
+  sp_write(95)
   /* !
   c={&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
     ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0

@@ -11,7 +11,7 @@ str fname
 str ans
 dim char c(255)
 /*
-fname = "sprite1.dat"
+fname = "sprite.dat"
 /*
 cls
 print "カレントディレクトリに" ; fname ; "を作成します。"
