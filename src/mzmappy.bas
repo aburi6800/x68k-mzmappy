@@ -13,6 +13,7 @@ sp_on()             /* 全プレーンのスプライト表示
 /* 定数
 int C_BG_WIDTH = 54
 int C_DISP_WIDTH = 32
+/*
 int C_GAME_STATUS_INIT = 0
 int C_GAME_STATUS_TITLE = 1
 int C_GAME_STATUS_OPENING = 2
@@ -22,6 +23,7 @@ int C_GAME_STATUS_MAIN = 5
 int C_GAME_STATUS_CLEAR = 6
 int C_GAME_STATUS_MISS = 7
 int C_GAME_STATUS_OVER = 8
+int C_GAME_STATUS_OPTION = 9
 int C_GAME_STATUS_QUIT = -1
 /*
 int C_DIR_LEFT = 0
@@ -64,10 +66,15 @@ dr_chr = {114,115,  0,  0  /* (0, 0～11) オープン・左
 int i, j
 int tick
 int trg
+int trg_bk
 int stk
 str errmsg[255]
 dim char offscr(54*29)  /* オフスクリーン
 int game_status = 0     /* ゲーム状態
+int opt_machine = 0     /* オプション：マシーンモード
+int opt_level = 1       /* オプション：ゲームレベル
+int opt_left = 3        /* オプション：プレイヤー数
+/*
 int round = 0           /* ラウンド数
 int score = 0           /* スコア
 int hiscore = 20000     /* ハイスコア
@@ -127,7 +134,8 @@ while game_status <> C_GAME_STATUS_QUIT
     case 6 : game_clear()     : break
 /*    case 7 : game_miss()      : break
 /*    case 8 : game_over()      : break
-    default : break
+    case 9 : game_option()    : break
+default : break
   endswitch
 endwhile
 /* 終了処理
@@ -144,20 +152,16 @@ end
 /* 操作入力
 /*
 func get_control()
-  str ky
-  ky = inkey$(0)
-/*  if (ky >= "0" and ky <= "9") then {
-/*    stk = val(ky)
-/*  } else {
-    stk = stick(1)
-/*  }
-  trg = strig(1)
-/*  if (ky = " ") then {
-/*    trg = 1
-/*  }
-  /* 終了チェック
-/*  if (ky = chr$(27) and game_status = C_GAME_STATUS_TITLE) then {
-  if (ky = chr$(27)) then {
+  stk = stick(1)
+  trg = 0
+  if ((strig(1) = 1) and (trg_bk = 0)) then {
+    trg = 1
+    trg_bk = 1
+  } else if ((strig(1) = 0) and (trg_bk = 1)) then {
+    trg = 0
+    trg_bk = 0
+  }
+  if (inkey$(0) = chr$(27)) then {
       game_status = C_GAME_STATUS_QUIT
   }
 endfunc
@@ -168,7 +172,7 @@ func game_init()
   /* 設定初期化
   round = 1
   score = 0
-  mp_left = 2
+  mp_left = opt_left
   /* サウンド初期化
   m_init()
   /* トラックシーケンスメモリ確保
@@ -215,6 +219,8 @@ func game_title()
   str s
   /* 画面消す
   erase_all()
+  mp_y = 9
+  trg = 0
   bg_set(0, 0, 0)
   bg_set(1, 1, 0)
   for i = 0 to 5
@@ -244,8 +250,29 @@ func game_title()
       return()
     }
   endwhile
+  /*
+  /* 画面消す
+  erase_all()
+  s = "START"
+  bg_print( 15, 10, s)
+  s = "OPTION"
+  bg_print( 15, 12, s)
+  trg = 0
+  while trg = 0
+    get_control()
+    if (game_status = C_GAME_STATUS_QUIT) then {
+      return()
+    }
+    if (stk = 8) then mp_y = 9
+    if (stk = 2) then mp_y = 11
+    sp_move(0, 12 * 8, mp_y * 8 + 4, 66)
+  endwhile
   /* ゲーム状態を変更
-  game_status = C_GAME_STATUS_OPENING /* ゲームオープニング
+  if (mp_y = 9) then {
+    game_status = C_GAME_STATUS_OPENING /* オープニング
+  } else {
+    game_status = C_GAME_STATUS_OPTION  /* オプション
+  }
 endfunc
 /*
 /* ゲームオープニング
@@ -1623,6 +1650,70 @@ func game_clear()
   game_status = C_GAME_STATUS_ROUNDINIT
 endfunc
 /*
+/* オプション
+/*
+func game_option()
+  int i
+  str s
+  dim str menu_str(2, 4)
+  dim int menu_val(2)
+  mp_y = 0
+  menu_str = {"MZ-80K    ", "MZ-700    ", "MZ-700 PCG", "MZ-1500   ", "",
+              "EASY  ", "NORMAL", "HARD  ", "", "",
+              "1", "3", "5", "", ""}
+  menu_val = {0, 1, 1}
+  /* 画面消す
+  erase_all()
+  /* 画面描画
+  bg_set(0, 0, 0)
+  bg_set(1, 1, 0)
+  /*
+  m_stop()
+  m_assign(8, 1) /* ch8 : trk1(メインループウェイト用)
+  /*
+  s = "OPTIONS"
+  bg_print(13, 6, s)
+  s = "-------"
+  bg_print(13, 7, s)
+  s = "MACHINE"
+  bg_print(8, 11, s)
+  s = "LEVEL"
+  bg_print(8, 13, s)
+  s = "PLAYER"
+  bg_print(8, 15, s)
+  s = "PUSH BUTTON TO EXIT."
+  bg_print(6, 24, s)
+  bg_set(0, 0, 1)
+  bg_set(1, 1, 1)
+  trg = 0
+  while trg = 0
+    m_play(8)  /* ウェイト用の音符を鳴らす
+    get_control()
+    if ((stk = 2) and (mp_y < 2)) then mp_y = mp_y + 1
+    if ((stk = 8) and (mp_y > 0)) then mp_y = mp_y - 1
+    sp_move(0, 5 * 8, (((mp_y * 2) + 10) * 8 + 4), 66)
+    /*
+    if ((stk = 4) and (menu_val(mp_y) > 0)) then {
+      menu_val(mp_y) = menu_val(mp_y) - 1
+    }
+    if ((stk = 6) and (menu_str(mp_y, menu_val(mp_y) + 1) <> "")) then {
+      menu_val(mp_y) = menu_val(mp_y) + 1
+    }
+    for i = 0 to 2
+      s = menu_str(i, menu_val(i))
+      bg_print(18, (i * 2) + 11, s)
+    next
+    /* ウェイト
+    while m_stat(8) = 1
+    endwhile
+  endwhile
+  /* オプション設定値反映
+  opt_machone = menu_val(0)
+  opt_levtl = menu_val(1)
+  opt_left = menu_val(2) * 2 + 1
+  game_status = C_GAME_STATUS_TITLE   /* タイトル
+endfunc
+/*
 /* 仮想画面X座標からスプライト表示X座標を取得
 /* in:
 /*    int   txt_x     仮想画面X座標(テキスト)
@@ -1665,6 +1756,11 @@ func erase_all()
   for i=0 to 127
     sp_set(i, 0, 0, pat_dat(0, 0, 1, 0))
   next
+  /*
+  trg = 0
+  stk = 0
+  while inkey$(0) <> ""
+  endwhile
 endfunc
 /*
 /* 仮想画面の指定座標のデータを取得する
