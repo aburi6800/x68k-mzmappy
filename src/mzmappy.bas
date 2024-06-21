@@ -1206,13 +1206,9 @@ func game_start()
   bg_print(22, 0, s)
   s = "R"
   bg_print(27, 0, s)
-/*  s = str$(score)
-/*  bg_print(9, 1, s)
-/*  s = "20000"
-/*  bg_print(14, 1, s)
   bg_printscore()
-  s = str$(mp_left)
-  bg_print(23, 1, s)
+  s = right$("  " + str$(mp_left), 2)
+  bg_print(22, 1, s)
   s = right$("  " + str$(round), 2)
   bg_print(26, 1, s)
   /* BG初期位置セット
@@ -1243,10 +1239,10 @@ func game_main()
   move_enemy()
   draw_item()
   /* BG#1スクロール
-  if mp_x - bg_x < C_DISP_WIDTH / 2 and bg_x > 0 then {
+  if ((mp_x - bg_x < C_DISP_WIDTH / 2) and (bg_x > 0)) then {
     bg_x = bg_x - 1
   }
-  if mp_x - bg_x > C_DISP_WIDTH / 2 and bg_x < (C_BG_WIDTH - C_DISP_WIDTH) then {
+  if ((mp_x - bg_x > C_DISP_WIDTH / 2) and (bg_x < (C_BG_WIDTH - C_DISP_WIDTH))) then {
     bg_x = bg_x + 1
   }
   bg_scroll(1, bg_x * 8, 0)
@@ -1264,16 +1260,20 @@ func draw_trampoline()
   char v
 /*
   for i = 0 to 8
-    if (tp_cond(i) > 1) then {
-      v = &H34
-    } else if (tp_cond(i) = 1) then {
-      v = &H2A
+    if (tp_cond(i) > 0) then {
+      if (tp_cond(i) = 1) then {
+        v = &H2A
+      } else {
+        v = &H34
+      }
+      vpoke(tp_x(i)    , tp_y(i), 0)
+      vpoke(tp_x(i) + 1, tp_y(i), 0)
     } else {
       v = &H00
     }
     bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, v))
     bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, v))
-  next
+next
 endfunc
 /*
 /* マッピー移動
@@ -1289,8 +1289,12 @@ func move_mappy()
   /* 座標変更
   mp_x = mp_x + mp_vx
   mp_y = mp_y + mp_vy
-  if (mp_x < 0) then mp_x = 0
-  if (mp_x > C_BG_WIDTH - 2) then mp_x = C_BG_WIDTH - 2
+  if (mp_x < 0) then {
+    mp_x = 0
+  }
+  if (mp_x > C_BG_WIDTH - 2) then {
+    mp_x = C_BG_WIDTH - 2
+  }
   if (mp_y > 30) then {
     mp_y = 30
   }
@@ -1337,7 +1341,7 @@ func move_mappy_floor()
       tr_f = 1
       /* 操作対象ドア検索
       dr_n = search_door(mp_x, mp_y, mp_dir)
-      if dr_n <> 255 then {
+      if (dr_n <> 255) then {
         if (dr_cond(dr_n) = 0) then {
           /* ドアクローズ
           dr_cond(dr_n) = 1
@@ -1407,7 +1411,7 @@ func move_mappy_updown()
   if (mp_vy = 1) then {
     /* 移動先にトランポリンがあるか
     for i = 0 to 8
-      if (mp_x = tp_x(i)) and (mp_y + 1 = tp_y(i)) and (tp_cond(i) > 0) then {
+      if ((mp_x = tp_x(i)) and (mp_y + 1 = tp_y(i)) and (tp_cond(i) > 0)) then {
         mp_tpix = i
         tp_cond(i) = tp_cond(i) - 1
         if (tp_cond(i) > 0) then {
@@ -1419,19 +1423,23 @@ func move_mappy_updown()
         } else {
           bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 0))
           bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 0))
+          vpoke(tp_x(i)    , tp_y(i), 64)
+          vpoke(tp_x(i) + 1, tp_y(i), 64)
         }
+        vpoke(tp_x(i)    , tp_y(i), 64)
+        vpoke(tp_x(i) + 1, tp_y(i), 64)
       }
     next
   }
   /* 移動先チェック（上）
-  if vpeek(mp_x, mp_y + mp_vy) <> 64 then {
+  if (vpeek(mp_x, mp_y + mp_vy) <> 64) then {
     mp_vy = 1
   }
   /* 入力チェック
-  if (mp_vy = -1) and ((mp_y - 8) mod 4 = 0) then {
+  if ((mp_vy = -1) and ((mp_y - 8) mod 4 = 0)) then {
     if (stk = 4) then {
       /* 左入力
-      if vpeek(mp_x - 1, mp_y + 1) = 0 then {
+      if (vpeek(mp_x - 1, mp_y + 1) = 0) then {
         mp_cond = 3
         mp_dir = C_DIR_LEFT
         mp_vx = -1
@@ -1441,7 +1449,7 @@ func move_mappy_updown()
       }
     } else if (stk = 6) then {
       /* 右入力
-      if vpeek(mp_x + 2, mp_y + 1) = 0 then {
+      if (vpeek(mp_x + 2, mp_y + 1) = 0) then {
         mp_cond = 3
         mp_dir = C_DIR_RIGHT
         mp_vx = 1
@@ -1469,12 +1477,11 @@ endfunc
 /*
 func move_enemy()
   for i = 0 to 7
-    if en_type(i) = 1 then {
-      move_nyamco(i)
-    }
-    if en_type(i) = 2 then {
-      move_myukies(i)
-    }
+    switch en_type(i)
+      case 1 : move_nyamco(i) : break
+      case 2 : move_myukies(i) : break
+      default : break
+    endswitch
   next
 endfunc
 /*
@@ -1496,10 +1503,11 @@ endfunc
 /*
 func draw_item()
   int i, j
+  /*
   for i = 0 to 9
     /* 盗品取得チェック
     if (it_cond(i) > 0) then {
-      if (it_x(i) = mp_x and it_y(i) = mp_y) then {
+      if ((it_x(i) = mp_x) and (it_y(i) = mp_y)) then {
         /* スコア加算
         score = score + (it_type(i) * 100 * it_cond(i))
         bg_printscore()
@@ -1513,12 +1521,12 @@ func draw_item()
         next
         /* 取った盗品と同じものがまだ残っている場合は、2倍状態にする
         if (i > 0) then {
-          if (it_type(i - 1) = it_type(i) and it_cond(i - 1) > 0) then {
+          if ((it_type(i - 1) = it_type(i)) and (it_cond(i - 1) > 0)) then {
             it_cond(i - 1) = 2
           }
         }
         if (i < 9) then {
-          if (it_type(i + 1) = it_type(i) and it_cond(i + 1) > 0) then {
+          if ((it_type(i + 1) = it_type(i)) and (it_cond(i + 1) > 0)) then {
             it_cond(i + 1) = 2
           }
         }
@@ -1557,8 +1565,9 @@ func int search_door(x;int, y;int, d;int)
   int door_n = 255
   int dist = 255
   int w_dist
+  /*
   for i = 0 to 10 /* すべてのドアについて比較する
-    if dr_y(i) = y - 1 then {
+    if (dr_y(i) = y - 1) then {
       w_dist = 255
       if (d = 0 and dr_dir(i) = 0 and dr_x(i) < x + 1) then w_dist = x + 1 - dr_x(i)
       if (d = 1 and dr_dir(i) = 0 and dr_x(i) > x - 1) then w_dist = dr_x(i) - x - 1
@@ -1682,11 +1691,13 @@ endfunc
 func char vpoke(x;int, y;int, data;int)
   offscr(((y - 3) * C_BG_WIDTH) + x) = data
 endfunc
+/*
 /* 絶対値算出(int型)
 /* in:
 /*    int   v         値
 /* out:
 /*    int   値の絶対値
+/*
 func int iabs(v;int)
   if (v < 0) then {
     v = v * -1
@@ -1718,19 +1729,19 @@ func bg_print(x;char, y;char, value;str)
       data = v - 64
     }
     /* 特殊文字
-    if v = '-' then {
+    if (v = '-') then {
       data = 42
     }
-    if v = '.' then {
+    if (v = '.') then {
       data = 46
     }
-    if v = '!' then {
+    if (v = '!') then {
       data = 97
     }
-    if v = '(' then {
+    if (v = '(') then {
       data = 104
     }
-    if v = ')' then {
+    if (v = ')') then {
       data = 105
     }
     bg_put(0, x + p, y, pat_dat(0, 0, 1, data))
