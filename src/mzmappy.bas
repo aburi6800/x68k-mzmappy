@@ -95,9 +95,13 @@ int mp_tpix = 255       /* マッピーが最後に乗ったトランポリンのインデックス
 int en_type(8)          /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
 int en_x(8)             /* 敵X座標
 int en_y(8)             /* 敵Y座標
-int en_cp(8)            /* 敵キャラクターパターン番号
+int en_vx(8)            /* 敵X移動量
+int en_vy(8)            /* 敵Y移動量
+int en_dir(8)           /* 敵キャラクターの向き(0=左、1=右)
 int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1, 2)
 int en_cond(8)          /* 敵の状態
+int en_target_y(8)      /* 敵の目標Y座標
+int en_target_dir(8)    /* 敵の目標方向
 /* トランポリン
 int tp_x(8)             /* トランポリンX座標
 int tp_y(8)             /* トランポリンY座標
@@ -310,7 +314,7 @@ func game_roundinit()
     en_type(i) = 0
     en_x(i) = 0
     en_y(i) = 0
-    en_cp(i) = 0
+    en_dir(i) = 0
     en_anim(i) = 0
     en_cond(i) = 0
   next
@@ -1186,19 +1190,34 @@ func game_start()
   mp_cond = 0             /* マッピーの状態
   mp_tpox = 255           /* マッピーが最後に乗ったトランポリンのインデックス 
   /* 敵配置
-  en_type(0) = 2          /* ニャームコ
+  en_type(0) = 1          /* ニャームコ
   en_x(0) = 37
   en_y(0) = 12
-  en_cp(0) = C_DIR_LEFT   /* 左
+  en_dir(0) = C_DIR_LEFT  /* 左
   en_anim(0) = 0
   en_cond(0) = 0
   /*
-  en_type(1) = 1          /* ミューキーズ
-  en_x(1) = 10
-  en_y(1) = 16
-  en_cp(1) = C_DIR_RIGHT  /* 右
+  en_type(1) = 2          /* ミューキーズ
+  en_x(1) = 45
+  en_y(1) = 8
+  en_vx(1) = 0
+  en_vy(1) = 0
+  en_dir(1) = C_DIR_RIGHT /* 右
   en_anim(1) = 0
   en_cond(1) = 0
+  en_target_y(1) = 0
+  en_target_dir(1) = 0
+  /*
+  en_type(2) = 2          /* ミューキーズ
+  en_x(2) = 37
+  en_y(2) = 24
+  en_vx(2) = 0
+  en_vy(2) = 0
+  en_dir(2) = C_DIR_LEFT  /* 左
+  en_anim(2) = 0
+  en_cond(2) = 0
+  en_target_y(2) = 0
+  en_target_dir(2) = 0
   /* 画面消す
   erase_all()
   /* 画面描画
@@ -1351,7 +1370,6 @@ func move_mappy()
     mp_y = 30
   }
   /* キャラクタ表示
-/*  sp_move(0, spr_x(mp_x), spr_y(mp_y), (mp_dir * 2) + 64 + mp_anim)
   if ((opt_machine = 1) or (opt_machine = 2)) then {
     pb = 6
   } else {
@@ -1458,7 +1476,7 @@ endfunc
 /*
 func move_mappy_updown()
   int i
-/*
+  /*
   mp_vx = 0
   /* 移動先チェック（下）
   if (mp_vy = 1) then {
@@ -1484,7 +1502,7 @@ func move_mappy_updown()
       }
     next
   }
-  /* 移動先チェック（上）
+  /* 移動先チェック
   if (vpeek(mp_x, mp_y + mp_vy) <> 64) then {
     mp_vy = 1
   }
@@ -1547,21 +1565,182 @@ func move_nyamco(num;int)
   } else {
     pb = 1
   }
-/*  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 78 + en_anim(num) + (en_cp(num) * 2))
-  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 78 + en_anim(num) + (en_cp(num) * 2)))
+  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 78 + en_anim(num) + (en_dir(num) * 2)))
 endfunc
 /*
 /* ミューキーズ移動
 /*
 func move_myukies(num;int)
-  /* 固定で置いておく
+  switch en_cond(num)
+    case 0 : move_myukies_floor(num) : break
+    case 1 : move_myukies_toupdown(num) : break
+    case 2 : move_myukies_updown(num) : break
+    case 3 : move_myukies_tofloor(num) : break
+/*    case 4 : move_myukies_knockdown(num) : break
+    default : break
+  endswitch
+  /* 座標変更
+  en_x(num) = en_x(num) + en_vx(num)
+  en_y(num) = en_y(num) + en_vy(num)
+  if (en_x(num) < 0) then {
+    en_x(num) = 0
+  }
+  if (en_x(num) > C_BG_WIDTH - 2) then {
+    en_x(num) = C_BG_WIDTH - 2
+  }
+  /* キャラクタ表示
   if ((opt_machine = 1) or (opt_machine = 2)) then {
     pb = 4
   } else {
     pb = 1
   }
-/*  sp_move(10 + num, spr_x(en_x(num)), spr_y(en_y(num)), 70 + en_anim(num) + (en_cp(num) * 2))
-  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 70 + en_anim(num) + (en_cp(num) * 2)))
+  en_anim(num) = en_anim(num) xor 1
+  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 70 + en_anim(num) + (en_dir(num) * 2)))
+endfunc
+/*
+/* ミューキーズ床移動
+/*
+func move_myukies_floor(num;int)
+  int vdata
+/*
+  en_vx(num) = 0
+  en_vy(num) = 0
+  if (en_dir(num) = C_DIR_LEFT) then {
+    en_vx(num) = -1
+    /* BG判定
+    vdata = vpeek(en_x(num) - 1, en_y(num) + 1)
+    if (vdata = 64) then {
+      en_vy(num) = -1
+      en_cond(num) = 1  /* トランポリンに乗る
+    } else if (vdata <> 0) then {
+      en_vx(num) = 1
+      en_dir(num) = C_DIR_RIGHT
+      /* TODO : ドアの状態と方向を判定し、ドアを開けるようにする
+    }
+  } else {
+    en_vx(num) = 1
+    /* BG判定
+    vdata = vpeek(en_x(num) + 2, en_y(num) + 1)
+    if (vdata = 64) then {
+      en_vy(num) = -1
+      en_cond(num) = 1  /* トランポリンに乗る
+    } else if (vdata <> 0) then {
+      /* TODO : ドアの状態と方向を判定し、ドアを開けるようにする
+      en_vx(num) = -1
+      en_dir(num) = C_DIR_LEFT
+    }
+  }
+endfunc
+/*
+/* ミューキーズ上下移動移行
+/*
+func move_myukies_toupdown(num;int)
+  en_vy(num) = 1
+  en_dir(num) = C_DIR_CENTER
+  en_cond(num) = 2
+  /* 目標のY座標と方向を決める
+  move_myukies_settarget(num)
+endfunc
+/*
+/* ミューキーズ上下移動
+/*
+func move_myukies_updown(num;int)
+  int i
+  /*
+  en_vx(num) = 0
+  /* 移動先チェック（下）
+  if (en_vy(num) = 1) then {
+    /* 移動先にトランポリンがあるか
+    for i = 0 to 8
+      if ((en_x(num) = tp_x(i))) and (en_y(num) + 1 = tp_y(i)) then {
+        bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 119))
+        bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 118))
+        en_vy(num) = -1
+        /* 目標の階と方向を設定
+        move_myukies_settarget(num)
+        /* 下の床にマッピーがいるか
+        if ((mp_cond = 0) and (en_y(num) < mp_y)) then {
+          /* 今の階で降りるようにする
+          en_target_y(num) = en_y(num)
+        }
+      }
+    next
+  }
+  /* 移動先チェック（上）
+  if (vpeek(en_x(num), en_y(num) + en_vy(num)) <> 64) then {
+    en_vy(num) = 1
+    /* 目標の階と方向を設定
+    move_myukies_settarget(num)
+    /* 上の階にマッピーがいるか
+    if (en_y(num) > mp_y) then {
+      /* 今の階で降りるようにする
+      en_target_y(num) = en_y(num)
+    }
+  }
+  /* トランポリンから降りるか
+  if (en_vy(num) = -1) then {
+    if (en_y(num) = en_target_y(num)) then {
+      if (en_target_dir(num) = C_DIR_LEFT) then {
+        if (vpeek(en_x(num) - 1, en_y(num) + 1) = 0) then {
+          en_cond(num) = 3
+          en_dir(num) = en_target_dir(num)
+          en_vx(num) = -1
+          en_vy(num) = -1
+        } else {
+          en_vy(num) = 1
+          /* 目標の階と方向を設定
+          move_myukies_settarget(num)
+        }
+      } else {
+        if (vpeek(en_x(num) + 2, en_y(num) + 1) = 0) then {
+          en_cond(num) = 3
+          en_dir(num) = en_target_dir(num)
+          en_vx(num) = 1
+          en_vy(num) = -1
+        } else {
+          en_vy(num) = 1
+          /* 目標の階と方向を設定
+          move_myukies_settarget(num)
+        }
+      }
+    }
+  }
+endfunc
+/*
+/* ミューキーズ床移動移行
+/*
+func move_myukies_tofloor(num;int)
+  en_vy(num) = 1
+  en_cond(num) = 0
+endfunc
+/*
+/* ミューキーズ目標床・方向設定
+/*
+func move_myukies_settarget(num;int)
+  int wk_y
+  /* マッピーの状態を判定
+  if (mp_cond = 0) then {
+    /* マッピーが床にいるとき
+    /* マッピーのY座標と、方向を目標の初期値にする
+    wk_y = mp_y
+  } else {
+    /* マッピーが床にいないとき
+    /* マッピーのY座標と移動方向から、次の階と方向を決める
+    /* 6階=8, 5階=12, 4階=16, 3階=20, 2階=24, 1階=28
+    /* マッピーの取りうるY座標：5～30
+    wk_y = ((mp_y + (mp_vy * 4)) / 4) * 4
+    if (wk_y < 8) then {
+      wk_y = 8
+    } else if (wk_y > 28) then {
+      wk_y = 28
+    }
+  }
+  en_target_y(num) = wk_y
+  if (mp_x < en_x(num)) then {
+    en_target_dir(num) = C_DIR_LEFT
+  } else {
+    en_target_dir(num) = C_DIR_RIGHT
+  }
 endfunc
 /*
 /* 盗品表示
