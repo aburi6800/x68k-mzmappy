@@ -1761,7 +1761,13 @@ func move_myukies_settarget(num;int)
   } else if (mp_x > en_x(num)) then {
     en_target_dir(num) = C_DIR_RIGHT
   } else {
-    en_target_dir(num) = C_DIR_CENTER
+    if (stk = 4) then {
+      en_target_dir(num) = C_DIR_LEFT
+    } else if (stk = 6) then {
+      en_target_dir(num) = C_DIR_RIGHT
+    } else {
+      en_target_dir(num) = C_DIR_CENTER
+    }
   }
 endfunc
 /*
