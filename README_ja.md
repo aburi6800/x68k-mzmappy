@@ -40,5 +40,5 @@ MZ-700モード
 - X68000のXCを使用する場合は、以下のようにします:
 
 ```
-A:>cc sprtest.bas
+A:>cc mzmappy.bas
 ```
