@@ -6,9 +6,9 @@
 
 ## Overview
 
-MAPPY for MZ-80K version on SHARP X68000.(under construction)  
-An attempt to create a game in as standard an environment as possible using X-BASIC on the SHARP X68000.  
-Since the execution speed on the interpreter is very slow, the BASIC program is converted to C source and an executable file is created using a C compiler.  
+This is a port of Mappy for the MZ-80K, released by Denpa Shimbun in 1984, to the SHARP X68000.  (under construction)  
+This project is an attempt to use X-BASIC to create a game in as standard an environment as possible.  
+However, due to the very slow execution speed of the interpreter, a C compiler will be used to convert the BASIC program to C source, create an executable file, and execute it.  
 
 <br>
 
