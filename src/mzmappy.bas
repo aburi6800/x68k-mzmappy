@@ -1190,15 +1190,16 @@ func game_start()
   mp_cond = 0             /* マッピーの状態
   mp_tpox = 255           /* マッピーが最後に乗ったトランポリンのインデックス 
   /* 敵配置
-  en_type(0) = 1          /* ニャームコ
+  /* ニャームコ
+  en_type(0) = 1
   en_x(0) = 37
   en_y(0) = 12
   en_dir(0) = C_DIR_LEFT  /* 左
   en_anim(0) = 0
   en_cond(0) = 0
-  /*
-  en_type(1) = 2          /* ミューキーズ
-  en_x(1) = 45
+  /* ミューキーズ
+  en_type(1) = 2
+  en_x(1) = 44
   en_y(1) = 8
   en_vx(1) = 0
   en_vy(1) = 0
@@ -1207,8 +1208,8 @@ func game_start()
   en_cond(1) = 0
   en_target_y(1) = 0
   en_target_dir(1) = 0
-  /*
-  en_type(2) = 2          /* ミューキーズ
+  /* ミューキーズ
+  en_type(2) = 2
   en_x(2) = 37
   en_y(2) = 24
   en_vx(2) = 0
@@ -1218,6 +1219,17 @@ func game_start()
   en_cond(2) = 0
   en_target_y(2) = 0
   en_target_dir(2) = 0
+  /* ミューキーズ
+  en_type(3) = 2
+  en_x(3) = 12
+  en_y(3) = 12
+  en_vx(3) = 0
+  en_vy(3) = 0
+  en_dir(3) = C_DIR_RIGHT /* 右
+  en_anim(3) = 0
+  en_cond(3) = 0
+  en_target_y(3) = 0
+  en_target_dir(3) = 0
   /* 画面消す
   erase_all()
   /* 画面描画
@@ -1383,7 +1395,7 @@ endfunc
 /* マッピー床移動
 /*
 func move_mappy_floor()
-  int vdata
+  char v
 /*
   mp_vy = 0
   mp_vx = 0
@@ -1392,11 +1404,11 @@ func move_mappy_floor()
     mp_dir = C_DIR_LEFT
     mp_vx = - 1
     /* BG判定
-    vdata = vpeek(mp_x - 1, mp_y + 1)
-    if (vdata = 64) then {
+    v = vpeek(mp_x - 1, mp_y + 1)
+    if (v = 64) then {
       mp_vy = - 1
       mp_cond = 1 /* トランポリンに乗る
-    } else if (vdata <> 0) then {
+    } else if (v <> 0) then {
       mp_vx = 0
     }
   } else if (stk = 6) then {
@@ -1404,11 +1416,11 @@ func move_mappy_floor()
     mp_dir = C_DIR_RIGHT
     mp_vx = 1
     /* BG判定
-    vdata = vpeek(mp_x + 2, mp_y + 1)
-    if (vdata = 64) then {
+    v = vpeek(mp_x + 2, mp_y + 1)
+    if (v = 64) then {
       mp_vy = - 1
       mp_cond = 1 /* トランポリンに乗る
-    } else if (vdata <> 0) then {
+    } else if (v <> 0) then {
       mp_vx = 0
     }
   }
@@ -1646,13 +1658,14 @@ endfunc
 /*
 func move_myukies_updown(num;int)
   int i
+  char vdata
   /*
   en_vx(num) = 0
   /* 移動先チェック（下）
   if (en_vy(num) = 1) then {
     /* 移動先にトランポリンがあるか
     for i = 0 to 8
-      if ((en_x(num) = tp_x(i))) and (en_y(num) + 1 = tp_y(i)) then {
+      if ((en_x(num) = tp_x(i))) and (en_y(num) + 1 = tp_y(i) and (tp_cond(i) > 0)) then {
         bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 119))
         bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 118))
         en_vy(num) = -1
@@ -1661,20 +1674,23 @@ func move_myukies_updown(num;int)
         /* 下の床にマッピーがいるか
         if ((mp_cond = 0) and (en_y(num) < mp_y)) then {
           /* 今の階で降りるようにする
-          en_target_y(num) = en_y(num)
+          en_target_y(num) = en_y(num) - 1
         }
       }
     next
   }
   /* 移動先チェック（上）
-  if (vpeek(en_x(num), en_y(num) + en_vy(num)) <> 64) then {
-    en_vy(num) = 1
-    /* 目標の階と方向を設定
-    move_myukies_settarget(num)
-    /* 上の階にマッピーがいるか
-    if (en_y(num) > mp_y) then {
-      /* 今の階で降りるようにする
-      en_target_y(num) = en_y(num)
+  if (en_vy(num) = -1) then {
+    if (vpeek(en_x(num), en_y(num) - 1) <> 64) then {
+      en_vy(num) = 1
+      /* 目標の階と方向を設定
+      move_myukies_settarget(num)
+      /* 上の階にマッピーがいるか
+      if (en_y(num) > mp_y) then {
+        /* 今の階で降りるようにする
+        en_target_y(num) = en_y(num) + 1
+/*      locate 0,0 : print en_target_y(num)
+      }
     }
   }
   /* トランポリンから降りるか
@@ -1691,7 +1707,7 @@ func move_myukies_updown(num;int)
           /* 目標の階と方向を設定
           move_myukies_settarget(num)
         }
-      } else {
+      } else if (en_target_dir(num) = C_DIR_RIGHT) then {
         if (vpeek(en_x(num) + 2, en_y(num) + 1) = 0) then {
           en_cond(num) = 3
           en_dir(num) = en_target_dir(num)
@@ -1712,6 +1728,10 @@ endfunc
 func move_myukies_tofloor(num;int)
   en_vy(num) = 1
   en_cond(num) = 0
+  if (num = 1) then {
+    /* 目標の階と方向を設定
+    move_myukies_settarget(num)
+  }
 endfunc
 /*
 /* ミューキーズ目標床・方向設定
@@ -1728,7 +1748,7 @@ func move_myukies_settarget(num;int)
     /* マッピーのY座標と移動方向から、次の階と方向を決める
     /* 6階=8, 5階=12, 4階=16, 3階=20, 2階=24, 1階=28
     /* マッピーの取りうるY座標：5～30
-    wk_y = ((mp_y + (mp_vy * 4)) / 4) * 4
+    wk_y = ((mp_y + (mp_vy * 3)) / 4) * 4
     if (wk_y < 8) then {
       wk_y = 8
     } else if (wk_y > 28) then {
@@ -1738,8 +1758,10 @@ func move_myukies_settarget(num;int)
   en_target_y(num) = wk_y
   if (mp_x < en_x(num)) then {
     en_target_dir(num) = C_DIR_LEFT
-  } else {
+  } else if (mp_x > en_x(num)) then {
     en_target_dir(num) = C_DIR_RIGHT
+  } else {
+    en_target_dir(num) = C_DIR_CENTER
   }
 endfunc
 /*
