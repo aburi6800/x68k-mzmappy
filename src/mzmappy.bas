@@ -1410,9 +1410,13 @@ func move_mappy()
     } else {
       pb = 1
     }
-    sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
     /* アニメパターン変更
-    mp_anim = mp_anim xor 1
+    if (mp_cond <> 0) or (stk <> 0) then {
+      mp_anim = mp_anim xor 1
+    } else {
+      mp_anim = 0
+    }
+    sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
   }
 endfunc
 /*
