@@ -1684,10 +1684,10 @@ func move_myukies_updown(num;int)
     if (vpeek(en_x(num), en_y(num) - 1) <> 64) then {
       en_vy(num) = 1
     }
-    if (num = 1) {
+    if (num = 1) then {
       /* 目標の階と方向を設定
       move_myukies_settarget(num)
-      locate 0,0 : print en_target_y(num)
+/*      locate 0,0 : print en_target_y(num)
     }
   }
   /* トランポリンから降りるか
@@ -1948,7 +1948,10 @@ func game_option()
     endwhile
   endwhile
   /* オプション設定値反映
-  opt_machine = menu_val(0)
+  if (opt_machine <> menu_val(0)) then {
+    opt_machine = menu_val(0)
+    sprite_pattern()
+  }
   opt_level = menu_val(1)
   opt_left = menu_val(2) * 2 + 1
   game_status = C_GAME_STATUS_TITLE   /* タイトル
@@ -2125,7 +2128,11 @@ func sprite_pattern()
   str fname
   dim char c(255)
   /*
-  fname = "sprite.dat"
+  if (opt_machine = 2) then {
+    fname = "sprite-pcg.dat"
+  } else {
+    fname = "sprite.dat"
+  }
   /*
   f = fopen(fname, "r")
   if (f = -1) then {
