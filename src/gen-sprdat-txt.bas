@@ -11,7 +11,7 @@ str fname
 str ans
 dim char c(255)
 /*
-fname = "sprite.dat"
+fname = "sprite-txt.dat"
 /*
 cls
 print "カレントディレクトリに" ; fname ; "を作成します。"
@@ -238,13 +238,13 @@ func sprite_pattern()
   sp_write(73)
   /*
   /* ミューキーズ正面(1)
-  c={&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H0,&H1,&H1,&H1,&H1,&H1,&H1,&HF
-    ,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H0,&H0,&H1,&H1,&H1,&H1,&HF,&HF
-    ,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H0,&H0,&H0,&H1,&H1,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+  c={&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF
+    ,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF
+    ,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
     ,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1
@@ -258,13 +258,13 @@ func sprite_pattern()
   sp_write(74)
   /*
   /* ミューキーズ正面(2)
-  c={&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H0,&H1,&H1,&H1,&H1,&H1,&H1,&HF
-    ,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H0,&H0,&H1,&H1,&H1,&H1,&HF,&HF
-    ,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H0,&H0,&H0,&H1,&H1,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&HF
-    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H0,&HF,&HF,&HF,&HF,&HF,&HF,&HF
+  c={&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF
+    ,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF
+    ,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF
+    ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
     ,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1
@@ -358,122 +358,122 @@ func sprite_pattern()
   sp_write(81)
   /*
   /* カセット
-  c={&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(90)
   /*
   /* テレビ
-  c={&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(91)
   /*
   /* マイコン
-  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(92)
   /*
   /* モナリサ
-  c={&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(93)
   /*
   /* キンコ．
-  c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(94)
   /*
   /* ？？？？
-  c={&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0
-    ,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0,&H0
-    ,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
-    ,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&HF,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
-    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  c={&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1
+    ,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1
+    ,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
+    ,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1
+    ,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
     }
   sp_write(95)
 endfunc

@@ -2167,7 +2167,7 @@ func sprite_pattern()
   if (opt_machine = 2) then {
     fname = "sprite-pcg.dat"
   } else {
-    fname = "sprite.dat"
+    fname = "sprite-txt.dat"
   }
   /*
   f = fopen(fname, "r")
