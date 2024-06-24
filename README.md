@@ -44,7 +44,7 @@ MZ-700+PCG Mode
 - Put the following files in the `dist` directory in the same directory.
     - mzmappy.x
     - bg.dat
-    - sprite.dat
+    - sprite-txt.dat
     - sprite-pcg.dat
 - From `COMMAND.X`, execute `mzmappy.x`.
 
