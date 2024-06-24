@@ -293,15 +293,15 @@ func game_opening()
     bg_put(1, i, 30, pat_dat(0, 0, 1, &H4A))
     bg_put(1, i, 31, pat_dat(0, 0, 1, &H4A))
   next
-  s = "NOW ON GO TO THE STORY!"
+  s = "NOW ON GO TO THE STORY !"
   bg_print(4, 9, s)
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
-  sp_move(1, spr_x(6),  spr_y(28), 78) /* ニャームコ左
-  sp_move(2, spr_x(10), spr_y(28), 70) /* ミューキーズ左
-  sp_move(3, spr_x(13), spr_y(28), 70) /* ミューキーズ左
-  sp_move(4, spr_x(16), spr_y(28), 70) /* ミューキーズ左
-  sp_move(5, spr_x(24), spr_y(28), 64) /* マッピー
+  sp_move(1, spr_x(6),  spr_y(28), 79) /* ニャームコ左
+  sp_move(2, spr_x(10), spr_y(28), 71) /* ミューキーズ左
+  sp_move(3, spr_x(13), spr_y(28), 71) /* ミューキーズ左
+  sp_move(4, spr_x(16), spr_y(28), 71) /* ミューキーズ左
+  sp_move(5, spr_x(24), spr_y(28), 65) /* マッピー
   /* オープニング曲
   m_assign(1, 2) /* ch1 : trk2(オープニング)
   m_play(1)
