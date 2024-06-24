@@ -87,6 +87,8 @@ int mp_x = 48           /* マッピーX座標
 int mp_y = 28           /* マッピーY座標
 int mp_vx = 0           /* マッピーX移動量
 int mp_vy = 0           /* マッピーY移動量
+int mp_wait_value       /* マッピーウェイト値
+int mp_wait_cnt         /* マッピーウェイトカウンタ
 int mp_dir = 0          /* マッピーの向き(0=左、1=右)
 int np_anim = 0         /* マッピーのアニメパターン(0, 1)
 int mp_cond = 0         /* マッピーの状態
@@ -97,6 +99,8 @@ int en_x(8)             /* 敵X座標
 int en_y(8)             /* 敵Y座標
 int en_vx(8)            /* 敵X移動量
 int en_vy(8)            /* 敵Y移動量
+int en_wait_value(8)    /* 敵ウェイト値
+int en_wait_cnt(8)      /* 敵ウェイトカウンタ
 int en_dir(8)           /* 敵キャラクターの向き(0=左、1=右)
 int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1, 2)
 int en_cond(8)          /* 敵の状態
@@ -1180,11 +1184,16 @@ endfunc
 /*
 func game_start()
   str s
+  int spd
+  /* 敵のスピード値の初期値を設定
+  spd = 2 + ((round - 1) / 2)
   /* マッピー
   mp_x = 48               /* マッピーX座標
   mp_y = 28               /* マッピーY座標
   mp_vx = 0               /* マッピーX移動量
   mp_vy = 0               /* マッピーY移動量
+  mp_wait_value = 3       /* マッピーウェイト値(3フレームに1回ウェイト)
+  mo_wait_cnt = 0         /* マッピーウェイトカウンタ
   mp_dir = C_DIR_RIGHT    /* マッピーの向き
   mp_anim = 0             /* マッピーのアニメパターン
   mp_cond = 0             /* マッピーの状態
@@ -1194,6 +1203,10 @@ func game_start()
   en_type(0) = 1
   en_x(0) = 37
   en_y(0) = 12
+  en_vx(0) = 0
+  en_vy(0) = 0
+  en_wait_value(0) = 2
+  en_wait_cnt(0) = 0
   en_dir(0) = C_DIR_LEFT  /* 左
   en_anim(0) = 0
   en_cond(0) = 0
@@ -1203,6 +1216,8 @@ func game_start()
   en_y(1) = 8
   en_vx(1) = 0
   en_vy(1) = 0
+  en_wait_value(1) = spd
+  en_wait_cnt(1) = 0
   en_dir(1) = C_DIR_RIGHT /* 右
   en_anim(1) = 0
   en_cond(1) = 0
@@ -1214,6 +1229,8 @@ func game_start()
   en_y(2) = 24
   en_vx(2) = 0
   en_vy(2) = 0
+  en_wait_value(2) = spd
+  en_wait_cnt(2) = 0
   en_dir(2) = C_DIR_LEFT  /* 左
   en_anim(2) = 0
   en_cond(2) = 0
@@ -1225,6 +1242,8 @@ func game_start()
   en_y(3) = 12
   en_vx(3) = 0
   en_vy(3) = 0
+  en_wait_value(3) = spd
+  en_wait_cnt(3) = 0
   en_dir(3) = C_DIR_RIGHT /* 右
   en_anim(3) = 0
   en_cond(3) = 0
@@ -1362,34 +1381,39 @@ endfunc
 /* マッピー移動
 /*
 func move_mappy()
-  switch mp_cond
-    case 0 : move_mappy_floor() : break
-    case 1 : move_mappy_toupdown() : break
-    case 2 : move_mappy_updown() : break
-    case 3 : move_mappy_tofloor() : break
-    default : break
-  endswitch
-  /* 座標変更
-  mp_x = mp_x + mp_vx
-  mp_y = mp_y + mp_vy
-  if (mp_x < 0) then {
-    mp_x = 0
-  }
-  if (mp_x > C_BG_WIDTH - 2) then {
-    mp_x = C_BG_WIDTH - 2
-  }
-  if (mp_y > 30) then {
-    mp_y = 30
-  }
-  /* キャラクタ表示
-  if ((opt_machine = 1) or (opt_machine = 2)) then {
-    pb = 6
+  mp_wait_cnt = mp_wait_cnt + 1
+  if (mp_wait_cnt = mp_wait_value) then {
+    mp_wait_cnt = 0
   } else {
-    pb = 1
+    switch mp_cond
+      case 0 : move_mappy_floor() : break
+      case 1 : move_mappy_toupdown() : break
+      case 2 : move_mappy_updown() : break
+      case 3 : move_mappy_tofloor() : break
+      default : break
+    endswitch
+    /* 座標変更
+    mp_x = mp_x + mp_vx
+    mp_y = mp_y + mp_vy
+    if (mp_x < 0) then {
+      mp_x = 0
+    }
+    if (mp_x > C_BG_WIDTH - 2) then {
+      mp_x = C_BG_WIDTH - 2
+    }
+    if (mp_y > 30) then {
+      mp_y = 30
+    }
+    /* キャラクタ表示
+    if ((opt_machine = 1) or (opt_machine = 2)) then {
+      pb = 6
+    } else {
+      pb = 1
+    }
+    sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
+    /* アニメパターン変更
+    mp_anim = mp_anim xor 1
   }
-  sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
-  /* アニメパターン変更
-  mp_anim = mp_anim xor 1
 endfunc
 /*
 /* マッピー床移動
@@ -1560,11 +1584,16 @@ endfunc
 /*
 func move_enemy()
   for i = 0 to 7
-    switch en_type(i)
-      case 1 : move_nyamco(i) : break
-      case 2 : move_myukies(i) : break
-      default : break
-    endswitch
+    en_wait_cnt(i) = en_wait_cnt(i) + 1
+    if (en_wait_cnt(i) = en_wait_value(i)) then {
+      en_wait_cnt(i) = 0
+    } else {
+      switch en_type(i)
+        case 1 : move_nyamco(i) : break
+        case 2 : move_myukies(i) : break
+        default : break
+      endswitch
+    }
   next
 endfunc
 /*
