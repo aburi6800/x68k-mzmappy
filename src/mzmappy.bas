@@ -74,7 +74,7 @@ dim char offscr(54*29)  /* オフスクリーン
 int game_status = 0     /* ゲーム状態
 int opt_machine = 0     /* オプション：マシーンモード
 int opt_level = 1       /* オプション：ゲームレベル
-int opt_left = 3        /* オプション：プレイヤー数
+int opt_left = 1        /* オプション：プレイヤー数
 /*
 int round = 0           /* ラウンド数
 int score = 0           /* スコア
@@ -175,7 +175,7 @@ func game_init()
   /* 設定初期化
   round = 1
   score = 0
-  mp_left = opt_left
+  mp_left = opt_left * 2 + 1
   /* サウンド初期化
   m_init()
   /* トラックシーケンスメモリ確保
@@ -1902,6 +1902,9 @@ func game_option()
               "EASY  ", "NORMAL", "HARD  ", "", "",
               "1", "3", "5", "", ""}
   menu_val = {0, 1, 1}
+  menu_val(0) = opt_machine
+  menu_val(1) = opt_level
+  menu_val(2) = opt_left
   /* 画面消す
   erase_all()
   /* 画面描画
@@ -1953,7 +1956,7 @@ func game_option()
     sprite_pattern()
   }
   opt_level = menu_val(1)
-  opt_left = menu_val(2) * 2 + 1
+  opt_left = menu_val(2)
   game_status = C_GAME_STATUS_TITLE   /* タイトル
 endfunc
 /*
