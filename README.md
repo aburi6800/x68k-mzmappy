@@ -32,6 +32,34 @@ MZ-700 Mode
 
 <br>
 
+MZ-700+PCG Mode  
+
+<img src="Images/screen_4.png">
+
+<br>
+
+## Startup
+
+- Runs on X68000, Requires `OPMDRV2` or `OPMDRV3`.
+- Put the following files in the `dist` directory in the same directory.
+    - mzmappy.x
+    - bg.dat
+    - sprite.dat
+    - sprite-pcg.dat
+- From `COMMAND.X`, execute `mzmappy.x`.
+
+<br>
+
+## How to play
+
+Joystick only.
+
+- Directional keys: left/right movement
+- Button: Door open/close, game start
+- ESC key: Exit
+
+<br>
+
 ## Compile from BASIC Source
 
 - if using X68000 XC, do the following:
