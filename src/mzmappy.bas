@@ -1683,41 +1683,36 @@ func move_myukies_updown(num;int)
   if (en_vy(num) = -1) then {
     if (vpeek(en_x(num), en_y(num) - 1) <> 64) then {
       en_vy(num) = 1
+    }
+    if (num = 1) {
       /* –Ú•W‚ÌŠK‚Æ•ûŒü‚ğİ’è
       move_myukies_settarget(num)
-      /* ã‚ÌŠK‚Éƒ}ƒbƒs[‚ª‚¢‚é‚©
-      if (en_y(num) > mp_y) then {
-        /* ¡‚ÌŠK‚Å~‚è‚é‚æ‚¤‚É‚·‚é
-        en_target_y(num) = en_y(num) + 1
-/*      locate 0,0 : print en_target_y(num)
-      }
+      locate 0,0 : print en_target_y(num)
     }
   }
   /* ƒgƒ‰ƒ“ƒ|ƒŠƒ“‚©‚ç~‚è‚é‚©
-  if (en_vy(num) = -1) then {
-    if (en_y(num) = en_target_y(num)) then {
-      if (en_target_dir(num) = C_DIR_LEFT) then {
-        if (vpeek(en_x(num) - 1, en_y(num) + 1) = 0) then {
-          en_cond(num) = 3
-          en_dir(num) = en_target_dir(num)
-          en_vx(num) = -1
-          en_vy(num) = -1
-        } else {
-          en_vy(num) = 1
-          /* –Ú•W‚ÌŠK‚Æ•ûŒü‚ğİ’è
-          move_myukies_settarget(num)
-        }
-      } else if (en_target_dir(num) = C_DIR_RIGHT) then {
-        if (vpeek(en_x(num) + 2, en_y(num) + 1) = 0) then {
-          en_cond(num) = 3
-          en_dir(num) = en_target_dir(num)
-          en_vx(num) = 1
-          en_vy(num) = -1
-        } else {
-          en_vy(num) = 1
-          /* –Ú•W‚ÌŠK‚Æ•ûŒü‚ğİ’è
-          move_myukies_settarget(num)
-        }
+  if ((en_vy(num) = -1) and (en_y(num) = en_target_y(num))) then {
+    if (en_target_dir(num) = C_DIR_LEFT) then {
+      if (vpeek(en_x(num) - 1, en_y(num) + 1) = 0) then {
+        en_cond(num) = 3
+        en_dir(num) = en_target_dir(num)
+        en_vx(num) = -1
+        en_vy(num) = -1
+      } else {
+        en_vy(num) = 1
+        /* –Ú•W‚ÌŠK‚Æ•ûŒü‚ğİ’è
+        move_myukies_settarget(num)
+      }
+    } else if (en_target_dir(num) = C_DIR_RIGHT) then {
+      if (vpeek(en_x(num) + 2, en_y(num) + 1) = 0) then {
+        en_cond(num) = 3
+        en_dir(num) = en_target_dir(num)
+        en_vx(num) = 1
+        en_vy(num) = -1
+      } else {
+        en_vy(num) = 1
+        /* –Ú•W‚ÌŠK‚Æ•ûŒü‚ğİ’è
+        move_myukies_settarget(num)
       }
     }
   }
