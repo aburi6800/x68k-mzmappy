@@ -1656,6 +1656,7 @@ endfunc
 /* ミューキーズ床移動
 /*
 func move_myukies_floor(num;int)
+  int dr_n
   char v
 /*
   en_vx(num) = 0
@@ -1671,14 +1672,21 @@ func move_myukies_floor(num;int)
     en_vy(num) = -1
     en_cond(num) = 1  /* トランポリンに乗る
   } else if (v <> 0) then {
-    if (en_dir(num) = C_DIR_LEFT) then {
-      en_vx(num) = 1
-      en_dir(num) = C_DIR_RIGHT
-      /* TODO : ドアの状態と方向を判定し、ドアを開けるようにする
-    } else {
-      /* TODO : ドアの状態と方向を判定し、ドアを開けるようにする
-      en_vx(num) = -1
-      en_dir(num) = C_DIR_LEFT
+    /* 操作対象ドア検索
+    dr_n = search_door(en_x(num), en_y(num), en_dir(num))
+    if ((dr_dir(dr_n) = en_dir(num)) and (dr_cond(dr_n) = 1)) then {
+      /* 通常ドアオープン
+      dr_cond(dr_n) = 0
+      draw_door(dr_n)
+    } else if (dr_cond(dr_n) <> 0) then {
+      /* TODO : 手前に開けたら気絶させる
+      if (en_dir(num) = C_DIR_LEFT) then {
+        en_vx(num) = 1
+        en_dir(num) = C_DIR_RIGHT
+      } else {
+        en_vx(num) = -1
+        en_dir(num) = C_DIR_LEFT
+      }
     }
   }
 endfunc
