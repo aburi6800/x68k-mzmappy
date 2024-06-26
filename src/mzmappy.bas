@@ -193,7 +193,7 @@ func game_init()
   m_alloc(5, 100)
   m_alloc(6, 100)
   /* trk1 : メインループウェイト用
-  m_trk(1, "@1t180@l2o1v0rrrr")
+  m_trk(1, "@1t180@l2o1v0rrr")
   /* trk2 : オープニング
   m_trk(2, "@31t160l16o3v13f#8ga8f# g8ab8g a8b<c8>a b8<cd8>b <c8de8c d8ef#8a b8.a8ba8ba8br2")
   /* trk3 : メインBGM
@@ -317,6 +317,20 @@ endfunc
 /* ラウンド初期化
 /*
 func game_roundinit()
+  str s
+  /*
+  /* ラウンド数表示
+  erase_all()
+  s = "ROUND " + str$(round)
+  bg_print(12, 9, s)
+  m_stop()
+  m_assign(8, 1) /* ch1 : trk1((メインループウェイト用))
+  for i = 0 to 29 
+    m_play(8)
+    while m_stat(8) = 1
+    endwhile
+  next
+  /*
   for i = 0 to 8
     tp_x(i) = 0
     tp_y(i) = 0
@@ -1557,7 +1571,7 @@ func move_mappy_updown()
     mp_vy = 1
   }
   /* 入力チェック
-  if ((mp_vy = -1) and ((mp_y - 8) mod 4 = 0)) then {
+  if ((stk > 0) and (mp_vy = -1) and ((mp_y - 8) mod 4 = 0)) then {
     if (stk = 4) then {
       /* 左入力
       v = vpeek(mp_x - 1, mp_y + 1)
