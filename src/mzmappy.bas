@@ -90,7 +90,8 @@ int mp_vy = 0           /* マッピーY移動量
 int mp_wait_value       /* マッピーウェイト値
 int mp_wait_cnt         /* マッピーウェイトカウンタ
 int mp_dir = 0          /* マッピーの向き(0=左、1=右)
-int np_anim = 0         /* マッピーのアニメパターン(0, 1)
+int mp_pb = 0
+int mp_anim = 0         /* マッピーのアニメパターン(0, 1)
 int mp_cond = 0         /* マッピーの状態
 int mp_tpix = 255       /* マッピーが最後に乗ったトランポリンのインデックス
 /* 敵
@@ -102,6 +103,8 @@ int en_vy(8)            /* 敵Y移動量
 int en_wait_value(8)    /* 敵ウェイト値
 int en_wait_cnt(8)      /* 敵ウェイトカウンタ
 int en_dir(8)           /* 敵キャラクターの向き(0=左、1=右)
+int en_pb(8)            /* 敵キャラクターのパレットブロック値
+int en_sprno(8)         /* 敵キャラクターの基準スプライトパターン番号
 int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1, 2)
 int en_cond(8)          /* 敵の状態
 int en_target_y(8)      /* 敵の目標Y座標
@@ -190,7 +193,7 @@ func game_init()
   m_alloc(5, 100)
   m_alloc(6, 100)
   /* trk1 : メインループウェイト用
-  m_trk(1, "@1t180@l2o1v0rrrrrr")
+  m_trk(1, "@1t180@l2o1v0rrrr")
   /* trk2 : オープニング
   m_trk(2, "@31t160l16o3v13f#8ga8f# g8ab8g a8b<c8>a b8<cd8>b <c8de8c d8ef#8a b8.a8ba8ba8br2")
   /* trk3 : メインBGM
@@ -1185,6 +1188,7 @@ endfunc
 func game_start()
   str s
   int spd
+  int pb
   /* 敵のスピード値の初期値を設定
   spd = 2 + ((round - 1) / 2)
   /* マッピー
@@ -1195,6 +1199,11 @@ func game_start()
   mp_wait_value = 3       /* マッピーウェイト値(3フレームに1回ウェイト)
   mo_wait_cnt = 0         /* マッピーウェイトカウンタ
   mp_dir = C_DIR_RIGHT    /* マッピーの向き
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    mp_pb = 6
+  } else {
+    mp_pb = 1
+  }
   mp_anim = 0             /* マッピーのアニメパターン
   mp_cond = 0             /* マッピーの状態
   mp_tpox = 255           /* マッピーが最後に乗ったトランポリンのインデックス 
@@ -1208,9 +1217,20 @@ func game_start()
   en_wait_value(0) = 2
   en_wait_cnt(0) = 0
   en_dir(0) = C_DIR_LEFT  /* 左
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    en_pb(0) = 3
+  } else {
+    en_pb(0) = 1
+  }
+  en_sprno(0) = 78
   en_anim(0) = 0
   en_cond(0) = 0
   /* ミューキーズ
+  if ((opt_machine = 1) or (opt_machine = 2)) then {
+    pb = 4
+  } else {
+    pb = 1
+  }
   en_type(1) = 2
   en_x(1) = 44
   en_y(1) = 8
@@ -1219,6 +1239,8 @@ func game_start()
   en_wait_value(1) = spd
   en_wait_cnt(1) = 0
   en_dir(1) = C_DIR_RIGHT /* 右
+  en_sprno(1) = 70
+  en_pb(1) = pb
   en_anim(1) = 0
   en_cond(1) = 0
   en_target_y(1) = 0
@@ -1232,6 +1254,8 @@ func game_start()
   en_wait_value(2) = spd
   en_wait_cnt(2) = 0
   en_dir(2) = C_DIR_LEFT  /* 左
+  en_sprno(2) = 70
+  en_pb(2) = pb
   en_anim(2) = 0
   en_cond(2) = 0
   en_target_y(2) = 0
@@ -1245,6 +1269,8 @@ func game_start()
   en_wait_value(3) = spd
   en_wait_cnt(3) = 0
   en_dir(3) = C_DIR_RIGHT /* 右
+  en_sprno(3) = 70
+  en_pb(3) = pb
   en_anim(3) = 0
   en_cond(3) = 0
   en_target_y(3) = 0
@@ -1325,10 +1351,14 @@ func game_main()
   }
   m_play(8)  /* ウェイト用の音符を鳴らす
   get_control()
-  draw_trampoline()
   move_mappy()
   move_enemy()
-  draw_item()
+  /* ウェイト
+  while m_stat(8) = 1
+  endwhile
+  /*
+  /* 画面描画
+  /*
   /* BG#1スクロール
   if ((mp_x - bg_x < C_DISP_WIDTH / 2) and (bg_x > 0)) then {
     bg_x = bg_x - 1
@@ -1337,9 +1367,18 @@ func game_main()
     bg_x = bg_x + 1
   }
   bg_scroll(1, bg_x * 8, 0)
-  /* ウェイト
-  while m_stat(8) = 1
-  endwhile
+  /* マッピー
+  sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, mp_pb, (mp_dir * 2) + 64 + mp_anim))
+  /* 敵
+  for i = 0 to 8
+    if (en_type(i) > 0) then {
+      sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), en_sprno(i) + en_anim(i) + (en_dir(i) * 2)))
+    }
+  next
+  /* 盗品
+  draw_item()
+  /* トランポリン
+  draw_trampoline()
   /* 経過時間加算
   tick = tick + 1
 endfunc
@@ -1404,19 +1443,12 @@ func move_mappy()
     if (mp_y > 30) then {
       mp_y = 30
     }
-    /* キャラクタ表示
-    if ((opt_machine = 1) or (opt_machine = 2)) then {
-      pb = 6
-    } else {
-      pb = 1
-    }
     /* アニメパターン変更
     if (mp_cond <> 0) or (stk <> 0) then {
       mp_anim = mp_anim xor 1
     } else {
       mp_anim = 0
     }
-    sp_set(0, spr_x(mp_x) + 16, spr_y(mp_y) + 16, pat_dat(0, 0, pb, (mp_dir * 2) + 64 + mp_anim))
   }
 endfunc
 /*
@@ -1604,13 +1636,6 @@ endfunc
 /* ニャームコ移動
 /*
 func move_nyamco(num;int)
-  /* 固定で置いておく
-  if ((opt_machine = 1) or (opt_machine = 2)) then {
-    pb = 3
-  } else {
-    pb = 1
-  }
-  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 78 + en_anim(num) + (en_dir(num) * 2)))
 endfunc
 /*
 /* ミューキーズ移動
@@ -1633,14 +1658,8 @@ func move_myukies(num;int)
   if (en_x(num) > C_BG_WIDTH - 2) then {
     en_x(num) = C_BG_WIDTH - 2
   }
-  /* キャラクタ表示
-  if ((opt_machine = 1) or (opt_machine = 2)) then {
-    pb = 4
-  } else {
-    pb = 1
-  }
+  /* アニメパターン変更
   en_anim(num) = en_anim(num) xor 1
-  sp_set(10 + num, spr_x(en_x(num)) + 16, spr_y(en_y(num)) + 16, pat_dat(0, 0, pb, 70 + en_anim(num) + (en_dir(num) * 2)))
 endfunc
 /*
 /* ミューキーズ床移動
