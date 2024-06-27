@@ -1217,13 +1217,13 @@ func game_start()
   /* 共通設定
   for i = 0 to 8
     en_type(i) = 0
-    en_vx(0) = 0
-    en_vy(0) = 0
-    en_anim(0) = 0
-    en_cond(0) = 0
-    en_wait_cnt(0) = 0
-    en_target_y(1) = 0
-    en_target_dir(1) = 0
+    en_vx(i) = 0
+    en_vy(i) = 0
+    en_anim(i) = 0
+    en_cond(i) = 0
+    en_wait_cnt(i) = 0
+    en_target_y(i) = 0
+    en_target_dir(i) = 0
   next
   /* ニャームコ
   en_type(0) = 1
@@ -1697,8 +1697,7 @@ func move_myukies_toupdown(num;int)
   en_vy(num) = 1
   en_dir(num) = C_DIR_CENTER
   en_cond(num) = 2
-  /* 目標のY座標と方向を決める
-  move_myukies_settarget(num)
+  en_target_y(num) = 0
 endfunc
 /*
 /* ミューキーズ上下移動
@@ -1708,33 +1707,46 @@ func move_myukies_updown(num;int)
   char v
   /*
   en_vx(num) = 0
-  /* 移動先チェック（下）
   if (en_vy(num) = 1) then {
-    /* 移動先にトランポリンがあるか
+    /* 移動先チェック（下）
     for i = 0 to 8
+      /* 移動先にトランポリンがあるか
       if ((en_x(num) = tp_x(i))) and (en_y(num) + 1 = tp_y(i) and (tp_cond(i) > 0)) then {
         bg_put(1, tp_x(i)    , tp_y(i), pat_dat(0, 0, 1, 119))
         bg_put(1, tp_x(i) + 1, tp_y(i), pat_dat(0, 0, 1, 118))
         en_vy(num) = -1
-        /* 目標の階と方向を設定
-        move_myukies_settarget(num)
-        /* 下の床にマッピーがいるか
-        if ((mp_cond = 0) and (en_y(num) < mp_y)) then {
-          /* 今の階で降りるようにする
-          en_target_y(num) = en_y(num) - 1
+        if (en_target_y(num) = 0) then {
+          /* 目標の階と方向を設定
+          move_myukies_settarget(num)
+          /* 下の階の床にマッピーがいるか
+          if ((mp_cond = 0) and (en_y(num) < mp_y)) then {
+            /* 今の階で降りるようにする
+            en_target_y(num) = en_y(num) - 1
+          }
         }
       }
     next
-  }
-  /* 移動先チェック（上）
-  if (en_vy(num) = -1) then {
+  } else {
+    /* 移動先チェック（上）
     if (vpeek(en_x(num), en_y(num) - 1) <> 64) then {
+      /* 床 or 天井に当たったら下向きに移動
       en_vy(num) = 1
+      /* 上の階の床にマッピーがいるか
+      if ((mp_cond = 0) and (en_y(num) > mp_y)) then {
+        /* 今の階で降りるようにする
+        en_target_y(num) = en_y(num) + 1
+      } else {
+        en_target_y(num) = 0
+      }
     }
-    if (num = 1) then {
+    if ((num = 1) and ((en_y(num) - 8) mod 4 = 0)) then {
       /* 目標の階と方向を設定
       move_myukies_settarget(num)
-/*      locate 0,0 : print en_target_y(num)
+      /* 下の階の床にマッピーがいるか
+      if ((mp_cond = 0) and (en_y(num) < mp_y)) then {
+        /* 今の階で降りるようにする
+        en_target_y(num) = en_y(num)
+      }
     }
   }
   /* トランポリンから降りるか
@@ -1766,6 +1778,7 @@ endfunc
 func move_myukies_tofloor(num;int)
   en_vy(num) = 1
   en_cond(num) = 0
+  en_target_y(num) = 0
   if (num = 1) then {
     /* 目標の階と方向を設定
     move_myukies_settarget(num)
