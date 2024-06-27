@@ -1237,12 +1237,12 @@ func game_start()
     en_pb(0) = 1
   }
   en_sprno(0) = 78
-  /* ミューキーズ
   if ((opt_machine = 1) or (opt_machine = 2)) then {
     pb = 4
   } else {
     pb = 1
   }
+  /* ミューキーズ
   en_type(1) = 2
   en_x(1) = 44
   en_y(1) = 8
@@ -1950,6 +1950,7 @@ endfunc
 /*
 func game_option()
   int i
+  int stk_buf
   str s
   dim str menu_str(2, 4)
   dim int menu_val(2)
@@ -1988,15 +1989,20 @@ func game_option()
   while trg = 0
     m_play(8)  /* ウェイト用の音符を鳴らす
     get_control()
-    if ((stk = 2) and (mp_y < 2)) then mp_y = mp_y + 1
-    if ((stk = 8) and (mp_y > 0)) then mp_y = mp_y - 1
-    sp_move(0, 5 * 8, (((mp_y * 2) + 10) * 8 + 4), 66)
-    /*
-    if ((stk = 4) and (menu_val(mp_y) > 0)) then {
-      menu_val(mp_y) = menu_val(mp_y) - 1
-    }
-    if ((stk = 6) and (menu_str(mp_y, menu_val(mp_y) + 1) <> "")) then {
-      menu_val(mp_y) = menu_val(mp_y) + 1
+    if (stk_buf = 0) then {
+      stk_buf = stk
+      if ((stk = 2) and (mp_y < 2)) then mp_y = mp_y + 1
+      if ((stk = 8) and (mp_y > 0)) then mp_y = mp_y - 1
+      sp_move(0, 5 * 8, (((mp_y * 2) + 10) * 8 + 4), 66)
+      /*
+      if ((stk = 4) and (menu_val(mp_y) > 0)) then {
+        menu_val(mp_y) = menu_val(mp_y) - 1
+      }
+      if ((stk = 6) and (menu_str(mp_y, menu_val(mp_y) + 1) <> "")) then {
+        menu_val(mp_y) = menu_val(mp_y) + 1
+      }
+    } else if (stk = 0) then {
+      stk_buf = 0
     }
     for i = 0 to 2
       s = menu_str(i, menu_val(i))
