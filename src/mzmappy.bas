@@ -1637,7 +1637,8 @@ func move_myukies(num;int)
     case 1 : move_myukies_toupdown(num) : break
     case 2 : move_myukies_updown(num) : break
     case 3 : move_myukies_tofloor(num) : break
-/*    case 4 : move_myukies_knockdown(num) : break
+    case 4 : move_myukies_checkback(num) : break
+/*    case 5 : move_myukies_knockdown(num) : break
     default : break
   endswitch
   /* 座標変更
@@ -1739,7 +1740,7 @@ func move_myukies_updown(num;int)
         en_target_y(num) = 0
       }
     }
-    if ((num = 1) and ((en_y(num) - 8) mod 4 = 0)) then {
+    if ((num = 1) and (en_target_y(num) = 0) and ((en_y(num) - 8) mod 4 = 0)) then {
       /* 目標の階と方向を設定
       move_myukies_settarget(num)
       /* 下の階の床にマッピーがいるか
@@ -1777,11 +1778,30 @@ endfunc
 /*
 func move_myukies_tofloor(num;int)
   en_vy(num) = 1
-  en_cond(num) = 0
   en_target_y(num) = 0
   if (num = 1) then {
-    /* 目標の階と方向を設定
-    move_myukies_settarget(num)
+    en_cond(num) = 4
+  } else {
+    en_cond(num) = 0
+  }
+endfunc
+/*
+/* ミューキーズ振り向き判定
+/*
+func move_myukies_checkback(num;int)
+  if ((en_dir(num) = C_DIR_LEFT) and (en_x(num) < mp_x)) then {
+    en_dir(num) = C_DIR_RIGHT
+    en_vx(num) = 1
+    en_vy(num) = -1
+    en_cond(num) = 1  /* トランポリンに乗る
+  } else if ((en_dir(num) = C_DIR_RIGHT) and (en_x(num) > mp_x)) then {
+    en_dir(num) = C_DIR_LEFT
+    en_vx(num) = -1
+    en_vy(num) = -1
+    en_cond(num) = 1  /* トランポリンに乗る
+  } else {
+    en_cond(num) = 0
+    en_vy(num) = 0
   }
 endfunc
 /*
@@ -1807,18 +1827,11 @@ func move_myukies_settarget(num;int)
     }
   }
   en_target_y(num) = wk_y
+  /*
   if (mp_x < en_x(num)) then {
     en_target_dir(num) = C_DIR_LEFT
-  } else if (mp_x > en_x(num)) then {
-    en_target_dir(num) = C_DIR_RIGHT
   } else {
-    if (stk = 4) then {
-      en_target_dir(num) = C_DIR_LEFT
-    } else if (stk = 6) then {
-      en_target_dir(num) = C_DIR_RIGHT
-    } else {
-      en_target_dir(num) = C_DIR_CENTER
-    }
+    en_target_dir(num) = C_DIR_RIGHT
   }
 endfunc
 /*
