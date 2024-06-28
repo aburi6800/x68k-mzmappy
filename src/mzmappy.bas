@@ -80,8 +80,14 @@ int round = 0           /* ラウンド数
 int score = 0           /* スコア
 int hiscore = 20000     /* ハイスコア
 int mp_left = 0         /* 残機数
-int item_left = 0       /* 盗品の残り
 int bg_x = 0            /* BG面の表示位置
+/* 得点
+int item_multiple = 1   /* 盗品の得点倍率
+int item_left = 0       /* 盗品の残り
+str item_score          /* アイテム得点表示
+int item_scote_x        /* アイテム得点表示X座標
+int item_scote_y        /* アイテム得点表示Y座標
+int item_score_cnt = 0  /* アイテム得点表示カウンタ
 /* マッピー
 int mp_x = 48           /* マッピーX座標
 int mp_y = 28           /* マッピーY座標
@@ -1197,6 +1203,7 @@ func game_start()
   int pb
   /* 敵のスピード値の初期値を設定
   spd = 2 + ((round - 1) / 2)
+  item_multiple = 1       /* 盗品の倍率
   /* マッピー
   mp_x = 48               /* マッピーX座標
   mp_y = 28               /* マッピーY座標
@@ -1370,6 +1377,10 @@ func game_main()
       sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), en_sprno(i) + en_anim(i) + (en_dir(i) * 2)))
     }
   next
+  /* 盗品のスコア
+  if (item_score_cnt > 0) then {
+    draw_itemscore()
+  }
   /* 経過時間加算
   tick = tick + 1
 endfunc
@@ -1838,33 +1849,53 @@ endfunc
 /* 盗品表示
 /*
 func draw_item()
-  int i, j
+  int i
+  int j
+  char v
   /*
   for i = 0 to 9
     /* 盗品取得チェック
     if (it_cond(i) > 0) then {
       if ((it_x(i) = mp_x) and (it_y(i) = mp_y)) then {
+        /* スコア表示
+        item_score_cnt = 8
+        if (it_cond(i) > 1) then {
+          item_multiple = item_multiple + 1
+          item_score = str$(it_type(i) * 100) + "X" + str$(item_multiple)
+        } else {
+          item_score = str$(it_type(i) * 100)
+        }
+        item_score_x = it_x(i) - 2
+        item_score_y = it_y(i) - 1
+        j = 0
+        repeat
+          j = j + 1
+          v = asc(mid$(item_score, j, 1))
+          if (v > 0) then {
+            if (v >= '0' and v <= '9') then {
+              bg_put(1, item_score_x + j, item_score_y, pat_dat(0, 0, 1, v - 16))
+            } else {
+              bg_put(1, item_score_x + j, item_score_y, pat_dat(0, 0, 1, 24))
+            }
+          }
+        until v = 0
         /* スコア加算
-        score = score + (it_type(i) * 100 * it_cond(i))
+        score = score + (it_type(i) * 100 * item_multiple)
         bg_printscore()
         /* 取った盗品を取得済にする
         it_cond(i) = 0
-        /* 一旦すべての2倍状態をキャンセルする
+        /* 一旦すべての倍率をリセットする
         for j = 0 to 9
           if (it_cond(j) > 0) then {
             it_cond(j) = 1
           }
         next
-        /* 取った盗品と同じものがまだ残っている場合は、2倍状態にする
-        if (i > 0) then {
-          if ((it_type(i - 1) = it_type(i)) and (it_cond(i - 1) > 0)) then {
-            it_cond(i - 1) = 2
-          }
+        /* 取った盗品と同じものがまだ残ってたら倍率を設定
+        if ((i > 0) and ((it_type(i - 1) = it_type(i)) and (it_cond(i - 1) > 0))) then {
+          it_cond(i - 1) = 2
         }
-        if (i < 9) then {
-          if ((it_type(i + 1) = it_type(i)) and (it_cond(i + 1) > 0)) then {
-            it_cond(i + 1) = 2
-          }
+        if ((i < 9) and ((it_type(i + 1) = it_type(i)) and (it_cond(i + 1) > 0))) then {
+          it_cond(i + 1) = 2
         }
         /* 盗品の残りをデクリメント
         item_left = item_left - 1
@@ -1875,7 +1906,7 @@ func draw_item()
       /* 表示
       if (it_cond(i) = 1) then {
         sp_move(30 + i, spr_x(it_x(i)), spr_y(it_y(i)), 90 + it_type(i) - 1)
-      } else if (it_cond(i) = 2) then {
+      } else if (it_cond(i) > 1) then {
         if (tick mod 2 = 0) then {
           sp_move(30 + i, spr_x(it_x(i)), spr_y(it_y(i)), 90 + it_type(i) - 1)
         } else {
@@ -1886,6 +1917,29 @@ func draw_item()
       sp_move(30 + i, -16, -16, 90 + it_type(i) - 1)
     }
   next
+endfunc
+/*
+/* 盗品得点表示制御
+/*
+func draw_itemscore()
+  int i
+  int p
+  char v
+  /*
+  item_score_cnt = item_score_cnt - 1
+  if (item_score_cnt = 0) then {
+    p = 0
+    repeat
+      p = p + 1
+      v = asc(mid$(item_score, p, 1))
+      bg_put(1, item_score_x + p, item_score_y, pat_dat(0, 0, 1, 0))
+    until v = 0
+    for i = 0 to 10
+      if (dr_y(i) > 0) then {
+        draw_door(i)
+      }
+    next
+  }
 endfunc
 /*
 /* 操作対象ドア検索
