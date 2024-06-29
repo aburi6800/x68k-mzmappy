@@ -38,6 +38,7 @@ endfunc
 /* 先頭の char c[255] の定義を削除、sp_def を sp_write に変換する。
 /*
 func sprite_pattern()
+  /* マッピー左(1)
   c={
    +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,
    +&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,
@@ -57,6 +58,7 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(64)
+  /* マッピー左(2)
   c={
    +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,
    +&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,
@@ -76,6 +78,7 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1
   }
   sp_write(65)
+  /* マッピー右(1)
   c={
    +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,
    +&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,
@@ -95,6 +98,7 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(66)
+  /* マッピー右(2)
   c={
    +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,
    +&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,
@@ -114,6 +118,7 @@ func sprite_pattern()
    +&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(67)
+  /* マッピー正面(1)
   c={
    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
    +&H1,&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,&H1,
@@ -133,6 +138,7 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
   }
   sp_write(68)
+  /* マッピー正面(2)
   c={
    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
    +&H1,&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,&H1,
@@ -152,6 +158,12 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
   }
   sp_write(69)
+  /* マッピーミス(1)
+  sp_write(70)
+  /* マッピーミス(2)
+  sp_write(71)
+  /*
+  /* ミューキーズ左(1)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
@@ -170,7 +182,8 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
   }
-  sp_write(70)
+  sp_write(72)
+  /* ミューキーズ左(2)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
@@ -189,7 +202,8 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1
   }
-  sp_write(71)
+  sp_write(73)
+  /* ミューキーズ右(1)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
@@ -208,7 +222,8 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
-  sp_write(72)
+  sp_write(74)
+  /* ミューキーズ右(2)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
@@ -227,7 +242,8 @@ func sprite_pattern()
    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
   }
-  sp_write(73)
+  sp_write(75)
+  /* ミューキーズ正面(1)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
@@ -246,7 +262,8 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
   }
-  sp_write(74)
+  sp_write(76)
+  /* ミューキーズ正面(2)
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
@@ -265,26 +282,49 @@ func sprite_pattern()
    +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
-  sp_write(75)
+  sp_write(77)
+  /* ミューキーズ左気絶
   c={
-   +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&H1,
-   +&H1,&H1,&HF,&H1,&H1,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
+   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&HF,&H1,&H1,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+   +&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&H1,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(78)
+  /* ミューキーズ右気絶
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&HF,&H1,&HF,&HF,
+    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,&H1,&HF,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,&HF,&HF,&HF,&HF,
+    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&HF,&HF,&HF,&HF,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1
+   }
+   sp_write(79)
+  /*
+  /* ニャームコ左右(1)
   c={
    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
@@ -303,45 +343,149 @@ func sprite_pattern()
    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1
   }
-  sp_write(79)
-  c={
-   +&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
-  }
   sp_write(80)
+  /* ニャームコ左右(2)
   c={
-   +&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,
-   +&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,
-   +&H1,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&H1,&H1,
-   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
-   +&H1,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+   +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
+   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+   +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
+   +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,
+   +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
+   +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+   +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(81)
+  /* ニャームコ左右(3)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+   }
+  sp_write(82)
+  /* ニャームコ左右(2)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1
+   }
+   sp_write(83)
+   /* ニャームコ正面(1)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&HF,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,&H1,&HF,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1
+   }
+  sp_write(84)
+  /* ニャームコ正面(2)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&HF,&H1,&H1,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1
+   }
+  sp_write(85)
+  /* ニャームコ気絶(1)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+  }
+sp_write(86)
+  /* ニャームコ気絶(2)
+  c={
+    +&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&H1,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&H1,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,
+    +&HF,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&H1,
+    +&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
+    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
+  }
+  sp_write(87)
+  /*
+  /* カセット
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
@@ -361,6 +505,7 @@ func sprite_pattern()
    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
   }
   sp_write(90)
+  /* テレビ
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
@@ -380,6 +525,7 @@ func sprite_pattern()
    +&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1
   }
   sp_write(91)
+  /* マイコン
   c={
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,
    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
@@ -399,6 +545,7 @@ func sprite_pattern()
    +&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
   }
   sp_write(92)
+  /* モナリサ
   c={
    +&H1,&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
    +&H1,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&H1,
@@ -418,6 +565,7 @@ func sprite_pattern()
    +&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1
   }
   sp_write(93)
+  /* キンコ．
   c={
    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1,
    +&H1,&HF,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&H1,&HF,&H1,
@@ -437,6 +585,7 @@ func sprite_pattern()
    +&H1,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF,&H1
   }
   sp_write(94)
+  /* ？？？？
   c={
    +&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,&H1,&HF,&HF,&HF,&HF,&HF,&H1,&H1,
    +&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,&HF,&H1,&H1,&H1,&H1,&H1,&HF,&H1,

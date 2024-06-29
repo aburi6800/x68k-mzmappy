@@ -742,6 +742,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_write(97)
+  /* &
+  c={&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&HF,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&HF,&H0,&H0,&HF,&H0,&HF,&H0
+    ,&H0,&HF,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&HF,&HF,&HF,&H0,&HF,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_write(102)
   /* (
   c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
     ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
@@ -764,6 +775,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_write(105)
+  /* *
+  c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&HF,&H0,&HF,&H0
+    ,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0
+    ,&H0,&H0,&HF,&HF,&HF,&HF,&HF,&H0
+    ,&H0,&H0,&H0,&HF,&HF,&HF,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&HF,&H0,&HF,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
+  }
+  sp_write(107)
   /* (è„ÇÃê¸)
   c={&HF,&HF,&HF,&HF,&HF,&HF,&HF,&HF
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0

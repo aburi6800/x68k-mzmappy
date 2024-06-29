@@ -98,7 +98,7 @@ int mp_wait_cnt         /* マッピーウェイトカウンタ
 int mp_dir = 0          /* マッピーの向き(0=左、1=右)
 int mp_pb = 0
 int mp_anim = 0         /* マッピーのアニメパターン(0, 1)
-int mp_cond = 0         /* マッピーの状態
+int mp_cond = 0         /* マッピーの状態(0=床移動,1=トランポリン移行中,2=トランポリン,3=床移動移行中)
 int mp_tpix = 255       /* マッピーが最後に乗ったトランポリンのインデックス
 /* 敵
 int en_type(8)          /* 敵の種類(1=ミューキーズ,2=ニャームコ,3=ご先祖様)
@@ -112,7 +112,7 @@ int en_dir(8)           /* 敵キャラクターの向き(0=左、1=右)
 int en_pb(8)            /* 敵キャラクターのパレットブロック値
 int en_sprno(8)         /* 敵キャラクターの基準スプライトパターン番号
 int en_anim(8)          /* 敵キャラクターアニメパターン(0, 1, 2)
-int en_cond(8)          /* 敵の状態
+int en_cond(8)          /* 敵の状態(0=床移動,1=トランポリン移行中,2=トランポリン,3=床移動移行中,4=着地後振り向きチェック中,5=気絶)
 int en_target_y(8)      /* 敵の目標Y座標
 int en_target_dir(8)    /* 敵の目標方向
 /* トランポリン
@@ -254,8 +254,8 @@ func game_title()
   bg_print(12, 22, s)
   s = "PROGRAM ARRANGED BY DEMPA"
   bg_print( 0, 26, s)
-  s = "AND GAME ROMAN"
-  bg_print(18, 27, s)
+  s = "& GAME ROMAN"
+  bg_print(20, 27, s)
   s = "REPROGRAMMED BY ABURI GAMES 2024"
   bg_print( 0, 29, s)
   bg_set(0, 0, 1)
@@ -306,10 +306,18 @@ func game_opening()
   bg_print(4, 9, s)
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
-  sp_move(1, spr_x(6),  spr_y(28), 79) /* ニャームコ左
-  sp_move(2, spr_x(10), spr_y(28), 71) /* ミューキーズ左
-  sp_move(3, spr_x(13), spr_y(28), 71) /* ミューキーズ左
-  sp_move(4, spr_x(16), spr_y(28), 71) /* ミューキーズ左
+  /* ニャームコ
+  if (opt_machine = 0) or (opt_machine = 1) then {
+    bg_put(1, 6, 28, pat_dat(0, 0, 1, 78))
+    bg_put(1, 7, 28, pat_dat(0, 0, 1, 78))
+    bg_put(1, 6, 29, pat_dat(0, 0, 1, 107))
+    bg_put(1, 7, 29, pat_dat(0, 0, 1, 107))
+  } else {
+    sp_move(1, spr_x(6),  spr_y(28), 80) 
+  }
+  sp_move(2, spr_x(10), spr_y(28), 73) /* ミューキーズ左
+  sp_move(3, spr_x(13), spr_y(28), 73) /* ミューキーズ左
+  sp_move(4, spr_x(16), spr_y(28), 73) /* ミューキーズ左
   sp_move(5, spr_x(24), spr_y(28), 65) /* マッピー
   /* オープニング曲
   m_assign(1, 2) /* ch1 : trk2(オープニング)
@@ -331,7 +339,7 @@ func game_roundinit()
   bg_print(12, 9, s)
   m_stop()
   m_assign(8, 1) /* ch1 : trk1((メインループウェイト用))
-  for i = 0 to 29 
+  for i = 0 to 39
     m_play(8)
     while m_stat(8) = 1
     endwhile
@@ -1243,7 +1251,7 @@ func game_start()
   } else {
     en_pb(0) = 1
   }
-  en_sprno(0) = 78
+  en_sprno(0) = 80
   if ((opt_machine = 1) or (opt_machine = 2)) then {
     pb = 4
   } else {
@@ -1255,7 +1263,7 @@ func game_start()
   en_y(1) = 8
   en_wait_value(1) = spd
   en_dir(1) = C_DIR_RIGHT /* 右
-  en_sprno(1) = 70
+  en_sprno(1) = 72
   en_pb(1) = pb
   /* ミューキーズ
   en_type(2) = 2
@@ -1263,7 +1271,7 @@ func game_start()
   en_y(2) = 24
   en_wait_value(2) = spd
   en_dir(2) = C_DIR_LEFT  /* 左
-  en_sprno(2) = 70
+  en_sprno(2) = 72
   en_pb(2) = pb
   /* ミューキーズ
   en_type(3) = 2
@@ -1271,7 +1279,7 @@ func game_start()
   en_y(3) = 12
   en_wait_value(3) = spd
   en_dir(3) = C_DIR_RIGHT /* 右
-  en_sprno(3) = 70
+  en_sprno(3) = 72
   en_pb(3) = pb
   /* 画面消す
   erase_all()
@@ -1344,6 +1352,8 @@ endfunc
 /* メインルーチン
 /*
 func game_main()
+  char cd
+  /*
   if (m_stat(1) = 0) then {
     m_play(1) /* メインBGM演奏
   }
@@ -1374,7 +1384,30 @@ func game_main()
   /* 敵
   for i = 0 to 8
     if (en_type(i) > 0) then {
-      sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), en_sprno(i) + en_anim(i) + (en_dir(i) * 2)))
+      if (en_type(i) = 1) then {
+        /* ニャームコ
+        switch en_cond(i)
+          case 0 : cd = 80 + en_anim(i) : break
+          case 1 : cd = 80 + en_anim(i) : break
+          case 2 : cd = 84 + en_anim(i) : break
+          case 3 : cd = 80 + en_anim(i) : break
+          case 4 : cd = 80 + en_anim(i) : break
+          case 5 : cd = 86 : break
+          default : break
+        endswitch
+      } else if (en_type(i) = 2) then {
+        /* ミューキーズ
+        switch en_cond(i)
+          case 0 : cd = 72 + (en_dir(i) * 2) + en_anim(i) : break
+          case 1 : cd = 72 + (en_dir(i) * 2) + en_anim(i) : break
+          case 2 : cd = 76 + en_anim(i) : break
+          case 3 : cd = 72 + (en_dir(i) * 2) + en_anim(i) : break
+          case 4 : cd = 72 + (en_dir(i) * 2) + en_anim(i) : break
+          case 5 : cd = 78 + en_dir(i) : break
+          default : break
+        endswitch
+      }
+      sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), cd))
     }
   next
   /* 盗品のスコア
@@ -1638,6 +1671,15 @@ endfunc
 /* ニャームコ移動
 /*
 func move_nyamco(num;int)
+  /* アニメパターン変更
+  if (en_cond(num) = 2) then {
+    en_anim(num) = en_anim(num) xor 1
+  } else {
+    en_anim(num) = en_anim(num) + 1
+    if (en_anim(num) > 3) then {
+      en_anim(num) = 0
+    }
+  }
 endfunc
 /*
 /* ミューキーズ移動
@@ -2191,7 +2233,7 @@ func bg_print(x;char, y;char, value;str)
   while asc(mid$(value, p+1, 1)) <> 0
     data = 0
     v = asc(mid$(value, p+1, 1))
-    /* 数値
+    /* MZのディスプレイコードへの変換
     if (v >= '0' and v <= '9') then {
       data = v - 16
     } else if (v >= 'A' and v <= 'Z') then {
@@ -2202,6 +2244,8 @@ func bg_print(x;char, y;char, value;str)
       data = 46
     } else if (v = '!') then {
       data = 97
+    } else if (v = '&') then {
+      data = 102
     } else if (v = '(') then {
       data = 104
     } else if (v = ')') then {
