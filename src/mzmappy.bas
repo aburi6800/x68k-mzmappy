@@ -1736,7 +1736,11 @@ func move_myukies_floor(num;int)
   } else if (v <> 0) then {
     /* 操作対象ドア検索
     dr_n = search_door(en_x(num) + en_vx(num), en_y(num), en_dir(num))
-    if (dr_cond(dr_n) = 1) then {
+    if ((dr_n = 255) or (dr_cond(dr_n) = 2)) then {
+      /* 進行方向を反転させる
+      en_vx(num) = en_vx(num) * -1
+      en_dir(num) = en_dir(num) xor 1
+    } else if (dr_cond(dr_n) = 1) then {
       /* 通常ドアオープン
       dr_cond(dr_n) = 0
       draw_door(dr_n)
@@ -1770,10 +1774,6 @@ func move_myukies_floor(num;int)
           en_sleep_cnt(num) = 16
         }
       }
-    } else if (dr_cond(dr_n) = 2) then {
-      /* 進行方向を反転させる
-      en_vx(num) = en_vx(num) * -1
-      en_dir(num) = en_dir(num) xor 1
     }
   }
 endfunc
