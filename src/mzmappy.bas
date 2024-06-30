@@ -108,6 +108,7 @@ int en_vx(8)            /* 敵X移動量
 int en_vy(8)            /* 敵Y移動量
 int en_wait_value(8)    /* 敵ウェイト値
 int en_wait_cnt(8)      /* 敵ウェイトカウンタ
+int en_sleep_cnt(8)     /* 敵停止カウンタ(0=動作、1～=停止)
 int en_dir(8)           /* 敵キャラクターの向き(0=左、1=右)
 int en_pb(8)            /* 敵キャラクターのパレットブロック値
 int en_sprno(8)         /* 敵キャラクターの基準スプライトパターン番号
@@ -1237,6 +1238,7 @@ func game_start()
     en_anim(i) = 0
     en_cond(i) = 0
     en_wait_cnt(i) = 0
+    en_sleep_cnt(i) = 0
     en_target_y(i) = 0
     en_target_dir(i) = 0
   next
@@ -1407,7 +1409,11 @@ func game_main()
           default : break
         endswitch
       }
-      sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), cd))
+      if ((en_sleep_cnt(i) > 0) and (en_sleep_cnt(i) < 8) and (tick mod 2 = 0)) then {
+        sp_set(10 + i, 0, 0, pat_dat(-16, -16, en_pb(i), cd))
+      } else {
+        sp_set(10 + i, spr_x(en_x(i)) + 16, spr_y(en_y(i)) + 16, pat_dat(0, 0, en_pb(i), cd))
+      }
     }
   next
   /* 盗品のスコア
@@ -1691,7 +1697,7 @@ func move_myukies(num;int)
     case 2 : move_myukies_updown(num) : break
     case 3 : move_myukies_tofloor(num) : break
     case 4 : move_myukies_checkback(num) : break
-/*    case 5 : move_myukies_knockdown(num) : break
+    case 5 : move_myukies_knockdown(num) : break
     default : break
   endswitch
   /* 座標変更
@@ -1710,6 +1716,7 @@ endfunc
 /* ミューキーズ床移動
 /*
 func move_myukies_floor(num;int)
+  int i
   int dr_n
   char v
 /*
@@ -1723,24 +1730,50 @@ func move_myukies_floor(num;int)
     v = vpeek(en_x(num) + 2, en_y(num) + 1)
   }
   if (v = 64) then {
+    /* トランポリンに乗る
     en_vy(num) = -1
-    en_cond(num) = 1  /* トランポリンに乗る
+    en_cond(num) = 1
   } else if (v <> 0) then {
     /* 操作対象ドア検索
-    dr_n = search_door(en_x(num), en_y(num), en_dir(num))
-    if ((dr_dir(dr_n) = en_dir(num)) and (dr_cond(dr_n) = 1)) then {
+    dr_n = search_door(en_x(num) + en_vx(num), en_y(num), en_dir(num))
+    if (dr_cond(dr_n) = 1) then {
       /* 通常ドアオープン
       dr_cond(dr_n) = 0
       draw_door(dr_n)
-    } else if (dr_cond(dr_n) <> 0) then {
-      /* TODO : 手前に開けたら気絶させる
-      if (en_dir(num) = C_DIR_LEFT) then {
-        en_vx(num) = 1
-        en_dir(num) = C_DIR_RIGHT
-      } else {
-        en_vx(num) = -1
-        en_dir(num) = C_DIR_LEFT
+      if (dr_dir(dr_n) <> en_dir(num)) then {
+        /* 後ろに吹っ飛んで気絶させる
+        en_cond(num) = 5
+        if (en_dir(num) = C_DIR_LEFT) then {
+          en_vx(num) = 1
+          en_dir(num) = C_DIR_RIGHT
+        } else {
+          en_vx(num) = -1
+          en_dir(num) = C_DIR_LEFT
+        }
+        for i = 1 to 3
+          if (en_dir(num) = C_DIR_LEFT) then {
+            v = vpeek(en_x(num) - 1, en_y(num) + 1)
+          } else {
+            v = vpeek(en_x(num) + 2, en_y(num) + 1)
+          }
+          if (v = 64) then {
+            /* トランポリンに乗る
+            en_vy(num) = -1
+            en_cond(num) = 1
+            en_sleep_cnt(num) = 0
+            break
+          }
+          en_x(num) = en_x(num) + en_vx(num)
+        next
+        if (en_cond(num) = 5) then {
+          en_vx(num) = 0
+          en_sleep_cnt(num) = 16
+        }
       }
+    } else if (dr_cond(dr_n) = 2) then {
+      /* 進行方向を反転させる
+      en_vx(num) = en_vx(num) * -1
+      en_dir(num) = en_dir(num) xor 1
     }
   }
 endfunc
@@ -1855,6 +1888,15 @@ func move_myukies_checkback(num;int)
   } else {
     en_cond(num) = 0
     en_vy(num) = 0
+  }
+endfunc
+/*
+/* ミューキーズ気絶
+/*
+func move_myukies_knockdown(num;int)
+  en_sleep_cnt(num) = en_sleep_cnt(num) - 1
+  if (en_sleep_cnt(num) = 0) then {
+    en_cond(num) = 0
   }
 endfunc
 /*

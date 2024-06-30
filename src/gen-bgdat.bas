@@ -1083,6 +1083,17 @@ func bg_pattern()
     ,&H0,&H0,&H0,&H0,&H0,&H0,&H0,&H0
   }
   sp_write(187)
+  /* ècÇÃÉMÉUÉMÉU
+  c={&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&HF,&H0,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&HF,&H0,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&HF,&H0,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&H0,&HF,&H0
+    ,&H0,&H0,&H0,&H0,&H0,&HF,&H0,&H0
+  }
+  sp_write(238)
   /* ñ‘ä|ÇØ
   c={&HF,&H0,&HF,&H0,&HF,&H0,&HF,&H0
     ,&H0,&HF,&H0,&HF,&H0,&HF,&H0,&HF
