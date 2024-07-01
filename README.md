@@ -62,8 +62,41 @@ Joystick only.
 
 ## Compile from BASIC Source
 
-- if using X68000 XC, do the following:
+### When using X68000 XC
+
+- Copy the project directory to any drive in the X68000 environment.
+- For example, if the x68k-mzmappy directory is on drive A, do the following :
 
 ```
-A:>cc mzmappy.bas
+A:\>cd x68k-mzmappy\src
+A:\x68k-mzmappy\src\>cc /W /Fx..\dist\mzmappy.x mzmappy.bas
 ```
+
+- mzmzppy.x will be created in the dist directory, so run it.
+
+<br>
+
+### When using [elf2x68k](https://github.com/yunkya2/elf2x68k)
+
+- Change the current directory to the directory of this project.
+- Compile with the following command.
+
+```
+$ cd src
+$ m68k-xelf-bas -o ../dist/mzmappy.x mzmappy.bas
+```
+
+> If you are using VSCode, you can perform the same operation by executing the task "Make Binary from X-BASIC".
+
+- Copy the set of files in the dist directory to the X68000 environment and run it.
+
+<br>
+
+## Thanks to
+
+This project was developed using the following software and applications.  
+Special thanks to the authors.
+
+- [XM6 TypeG](http://retropc.net/pi/xm6/index.html) (by Mr. PI.)
+- [elf2x68k](https://github.com/yunkya2/elf2x68k) (by yunkya2)
+- [Lovely Composer](https://doc1oo.github.io/LovelyComposerDocs/en/index.html) (by doc100)

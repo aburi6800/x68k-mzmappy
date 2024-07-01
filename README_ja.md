@@ -65,8 +65,41 @@ MZ-700+PCGモード
 
 ## BASICソースからのコンパイル
 
-- X68000のXCを使用する場合は、以下のようにします:
+### X68000のXCを使用する場合
+
+- X68000環境の任意のドライブに、プロジェクトのディレクトリをコピーします。
+- 例えばAドライブにx68k-mzmappyディレクトリがある場合、以下のようにします。
 
 ```
-A:>cc mzmappy.bas
+A:\>cd x68k-mzmappy\src
+A:\x68k-mzmappy\src\>cc /W /Fx..\dist\mzmappy.x mzmappy.bas
 ```
+
+- distディレクトリにmzmzppy.xが作成されますので、実行します。
+
+<br>
+
+### [elf2x68k](https://github.com/yunkya2/elf2x68k)を利用する場合
+
+- カレントディレクトリをこのプロジェクトのディレクトリに変更します。
+- 以下コマンドでコンパイルします。
+
+```
+$ cd src
+$ m68k-xelf-bas -o ../dist/mzmappy.x mzmappy.bas
+```
+
+> VSCodeをお使いの場合は、タスクの「Make Binary from X-BASIC」を実行しても同様の操作ができます。
+
+- distディレクトリにあるファイル一式をX68000環境にコピーし、実行します。
+
+<br>
+
+## 謝辞
+
+このプロジェクトは以下のソフトウェア、アプリケーションを利用し開発しています。  
+作者の方々へ感謝いたします。
+
+- [XM6 TypeG](http://retropc.net/pi/xm6/index.html) (PI.氏)
+- [elf2x68k](https://github.com/yunkya2/elf2x68k) (yunkya2氏)
+- [Lovely Composer](https://doc1oo.github.io/LovelyComposerDocs/jp/index.html) (doc100氏)
