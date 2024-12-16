@@ -43,7 +43,8 @@ MZ-700+PCGモード
 
 ## 起動方法
 
-- X68000で実行します。`OPMDRV2`、または`OPMDRV3`が必要です。
+- X68000で実行します。
+- `OPMDRV2`、または`OPMDRV3`が必要です。
 - `dist`ディレクトリにある以下のファイルを、同じディレクトリに入れてください。
     - mzmappy.x
     - bg.dat
@@ -81,6 +82,7 @@ A:\x68k-mzmappy\src\>cc /W /Fx..\dist\mzmappy.x mzmappy.bas
 
 ### [elf2x68k](https://github.com/yunkya2/elf2x68k)を利用する場合
 
+- Windowsの場合は、WSL2環境で使用します。
 - カレントディレクトリをこのプロジェクトのディレクトリに変更します。
 - 以下コマンドでコンパイルします。
 
@@ -90,6 +92,7 @@ $ m68k-xelf-bas -o ../dist/mzmappy.x mzmappy.bas
 ```
 
 > VSCodeをお使いの場合は、タスクの「Make Binary from X-BASIC」を実行しても同様の操作ができます。
+> なお、Windows環境のドライブにプロジェクトが存在する場合は、WSL2からVSCodeを起動し、/mnt配下にあるWindowsドライブの対象プロジェクトを開いたうえでタスクを実行してください。
 
 - distディレクトリにあるファイル一式をX68000環境にコピーし、実行します。
 
