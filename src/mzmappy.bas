@@ -65,9 +65,9 @@ dr_chr = {114,115,  0,  0  /* (0, 0～11) オープン・左
 /* 変数
 int i, j 
 int tick                /* ゲーム経過時間
-int trg                 /* トリガ入力値
-int trg_bk              /* トリガ入力値(保存用)
-int stk                 /* ジョイスティック入力値
+int trg                 /* トリガ入力バッファ
+int trg_on_flg          /* トリガ入力フラグ
+int stk                 /* ジョイスティック入力バッファ
 int pb                  /* パレットブロック
 str errmsg[255]         /* エラーメッセージ
 dim char offscr(54*29)  /* オフスクリーン
@@ -169,17 +169,22 @@ end
 /* 操作入力
 /*
 func get_control()
+  int t
+  /* レバー入力
   stk = stick(1)
-  trg = 0
-  if ((strig(1) = 1) and (trg_bk = 0)) then {
-    trg = 1
-    trg_bk = 1
-  } else if ((strig(1) = 0) and (trg_bk = 1)) then {
-    trg = 0
-    trg_bk = 0
+  /* トリガ入力
+  t = strig(1)
+  if (trg_on_flg = 0) and (t > 0) then {
+    trg_on_flg = 1
+    trg = t
+  } else {
+    if (t = 0) then {
+      trg_on_flg = 0
+    }
   }
+  /* ESCキーで終了
   if (inkey$(0) = chr$(27)) then {
-      game_status = C_GAME_STATUS_QUIT
+    game_status = C_GAME_STATUS_QUIT
   }
 endfunc
 /*
@@ -261,6 +266,7 @@ func game_title()
   bg_print( 0, 29, s)
   bg_set(0, 0, 1)
   bg_set(1, 1, 1)
+  trg = 0
   while trg = 0
     get_control()
     if (game_status = C_GAME_STATUS_QUIT) then {
@@ -1360,11 +1366,12 @@ func game_main()
     m_play(1) /* メインBGM演奏
   }
   m_play(8)  /* ウェイト用の音符を鳴らす
-  get_control()
   move_mappy()
   move_enemy()
   /* ウェイト
+  trg = 0
   while m_stat(8) = 1
+    get_control()
   endwhile
   /*
   /* 画面描画
@@ -2101,7 +2108,6 @@ endfunc
 /*
 func game_option()
   int i
-  int stk_buf
   str s
   dim str menu_str(2, 4)
   dim int menu_val(2)
@@ -2139,21 +2145,15 @@ func game_option()
   trg = 0
   while trg = 0
     m_play(8)  /* ウェイト用の音符を鳴らす
-    get_control()
-    if (stk_buf = 0) then {
-      stk_buf = stk
-      if ((stk = 2) and (mp_y < 2)) then mp_y = mp_y + 1
-      if ((stk = 8) and (mp_y > 0)) then mp_y = mp_y - 1
-      sp_move(0, 5 * 8, (((mp_y * 2) + 10) * 8 + 4), 66)
-      /*
-      if ((stk = 4) and (menu_val(mp_y) > 0)) then {
-        menu_val(mp_y) = menu_val(mp_y) - 1
-      }
-      if ((stk = 6) and (menu_str(mp_y, menu_val(mp_y) + 1) <> "")) then {
-        menu_val(mp_y) = menu_val(mp_y) + 1
-      }
-    } else if (stk = 0) then {
-      stk_buf = 0
+    if ((stk = 2) and (mp_y < 2)) then mp_y = mp_y + 1
+    if ((stk = 8) and (mp_y > 0)) then mp_y = mp_y - 1
+    sp_move(0, 5 * 8, (((mp_y * 2) + 10) * 8 + 4), 66)
+    /*
+    if ((stk = 4) and (menu_val(mp_y) > 0)) then {
+      menu_val(mp_y) = menu_val(mp_y) - 1
+    }
+    if ((stk = 6) and (menu_str(mp_y, menu_val(mp_y) + 1) <> "")) then {
+      menu_val(mp_y) = menu_val(mp_y) + 1
     }
     for i = 0 to 2
       s = menu_str(i, menu_val(i))
@@ -2161,6 +2161,7 @@ func game_option()
     next
     /* ウェイト
     while m_stat(8) = 1
+      get_control()
     endwhile
   endwhile
   /* オプション設定値反映
