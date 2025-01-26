@@ -11,12 +11,12 @@
         {
             "label": "Make C-Source from X-BASIC",
             "type": "shell",
-            "command": "m68k-xelf-bas -S -o ${workspaceFolder}/src/mzmppy.c mzmappy.bas"
+            "command": "m68k-xelf-bas -S -o ${workspaceFolder}/src/mzmappy.c ${workspaceFolder}/src/mzmappy.bas"
         },
         {
             "label": "Make Binary from C-Source(BASIC Convert)",
             "type": "shell",
-            "command": "m68k-xelf-gcc -c -specs=xc.specs -o ${workspaceFolder}/dist/mzmappy.x ${workspaceFolder}/src/mzmzppy.c -lbas"
+            "command": "m68k-xelf-gcc -c -specs=xc.specs -o ${workspaceFolder}/dist/mzmappy.x ${workspaceFolder}/src/mzmappy.c -lbas"
         },
         {
             "label": "Clean",
